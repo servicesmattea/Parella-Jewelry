@@ -12,6 +12,8 @@
   --color-beige-dark: #6f5d44;
   --color-beige-darker: #3f3527;
   --color-cream: #faf7f2;
+  --color-ink: #14152b;
+  --color-ink-light: #262a52;
 
   /* Motion language */
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
@@ -35,6 +37,8 @@
   --color-beige-dark: var(--color-beige-dark);
   --color-beige-darker: var(--color-beige-darker);
   --color-cream: var(--color-cream);
+  --color-ink: var(--color-ink);
+  --color-ink-light: var(--color-ink-light);
 }
 
 body {

@@ -41,7 +41,7 @@ const COLUMNS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[var(--color-beige-darker)] text-white/70 mt-auto">
+    <footer className="bg-[var(--color-ink)] text-white/70 mt-auto">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-10">
         <div className="lg:col-span-2">
           <p className="font-display text-2xl text-white tracking-[0.08em]">

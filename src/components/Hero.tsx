@@ -88,7 +88,7 @@ export default function Hero() {
         <Reveal delay={0.15} className="relative aspect-square w-full max-w-lg mx-auto">
           <motion.div style={{ y: visualY }} className="absolute inset-0">
             <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-[var(--color-electric)] via-[var(--color-electric-light)] to-[var(--color-beige)] opacity-90" />
-            <div className="absolute inset-[3px] rounded-[2.4rem] bg-[var(--color-beige-darker)] overflow-hidden">
+            <div className="absolute inset-[3px] rounded-[2.4rem] bg-[var(--color-ink)] overflow-hidden">
               <LivingThread />
             </div>
           </motion.div>

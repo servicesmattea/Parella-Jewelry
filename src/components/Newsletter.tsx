@@ -47,7 +47,7 @@ export default function Newsletter() {
             <Magnetic>
               <button
                 type="submit"
-                className="inline-flex items-center justify-center gap-2 min-h-11 px-6 py-3.5 rounded-full bg-[var(--color-beige-darker)] text-white text-sm font-semibold hover:bg-black transition-colors"
+                className="inline-flex items-center justify-center gap-2 min-h-11 px-6 py-3.5 rounded-full bg-[var(--color-ink)] text-white text-sm font-semibold hover:bg-[var(--color-ink-light)] transition-colors"
               >
                 S&apos;inscrire <ArrowRight size={15} />
               </button>
@@ -62,7 +62,7 @@ export default function Newsletter() {
         preserveAspectRatio="none"
         aria-hidden="true"
       >
-        <path d="M0,56 C360,0 1080,0 1440,56 Z" fill="var(--color-beige-darker)" />
+        <path d="M0,56 C360,0 1080,0 1440,56 Z" fill="var(--color-ink)" />
       </svg>
     </section>
   );

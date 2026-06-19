@@ -56,7 +56,7 @@ export default function Configurator() {
   return (
     <section
       id="configurateur"
-      className="bg-[var(--color-beige-darker)] py-20 sm:py-28"
+      className="bg-[var(--color-ink)] py-20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal className="text-center max-w-2xl mx-auto mb-14">

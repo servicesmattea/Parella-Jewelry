@@ -94,7 +94,7 @@ export function FeaturedBracelet({ bracelet }: { bracelet: Bracelet }) {
   return (
     <TiltCard
       max={3}
-      className="relative h-full min-h-[26rem] rounded-3xl bg-[var(--color-beige-darker)] overflow-hidden p-8 sm:p-10 flex flex-col shadow-lifted"
+      className="relative h-full min-h-[26rem] rounded-3xl bg-[var(--color-ink)] overflow-hidden p-8 sm:p-10 flex flex-col shadow-lifted"
     >
       <div className="flex items-start justify-between">
         {bracelet.badge && (
