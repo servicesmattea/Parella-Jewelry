@@ -1,8 +1,10 @@
 import { bracelets } from "@/data/bracelets";
-import BraceletCard from "./BraceletCard";
+import BraceletCard, { FeaturedBracelet } from "./BraceletCard";
 import Reveal from "./Reveal";
 
 export default function ReadyMadeBracelets() {
+  const [featured, second, third, ...rest] = bracelets;
+
   return (
     <section id="bracelets" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
       <Reveal>
@@ -23,8 +25,22 @@ export default function ReadyMadeBracelets() {
         </div>
       </Reveal>
 
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+        <Reveal className="lg:col-span-2">
+          <FeaturedBracelet bracelet={featured} />
+        </Reveal>
+        <div className="grid grid-cols-2 lg:grid-cols-1 gap-6">
+          <Reveal delay={0.08}>
+            <BraceletCard bracelet={second} />
+          </Reveal>
+          <Reveal delay={0.16}>
+            <BraceletCard bracelet={third} />
+          </Reveal>
+        </div>
+      </div>
+
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-12">
-        {bracelets.map((b, i) => (
+        {rest.map((b, i) => (
           <Reveal key={b.id} delay={(i % 3) * 0.08}>
             <BraceletCard bracelet={b} />
           </Reveal>

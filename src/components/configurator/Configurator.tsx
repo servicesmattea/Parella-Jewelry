@@ -6,6 +6,7 @@ import { stones } from "@/data/stones";
 import type { SlotValue } from "./BraceletScene";
 import { Check, Loader2, RotateCcw, ShoppingBag } from "lucide-react";
 import Reveal from "../Reveal";
+import Magnetic from "../MagneticButton";
 
 const BraceletScene = dynamic(() => import("./BraceletScene"), {
   ssr: false,
@@ -147,21 +148,23 @@ export default function Configurator() {
                   {price.toFixed(2)} €
                 </p>
               </div>
-              <button
-                onClick={handleAddToCart}
-                disabled={filledCount === 0}
-                className="inline-flex items-center justify-center gap-2 min-h-11 px-6 py-3.5 rounded-full bg-[var(--color-electric)] text-white text-sm font-semibold hover:bg-[var(--color-electric-dark)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                {added ? (
-                  <>
-                    <Check size={16} /> Ajouté
-                  </>
-                ) : (
-                  <>
-                    <ShoppingBag size={16} /> Ajouter au panier
-                  </>
-                )}
-              </button>
+              <Magnetic>
+                <button
+                  onClick={handleAddToCart}
+                  disabled={filledCount === 0}
+                  className="inline-flex items-center justify-center gap-2 min-h-11 px-6 py-3.5 rounded-full bg-[var(--color-electric)] text-white text-sm font-semibold hover:bg-[var(--color-electric-dark)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {added ? (
+                    <>
+                      <Check size={16} /> Ajouté
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingBag size={16} /> Ajouter au panier
+                    </>
+                  )}
+                </button>
+              </Magnetic>
             </div>
           </div>
         </Reveal>

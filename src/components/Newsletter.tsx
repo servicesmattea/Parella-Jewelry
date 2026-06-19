@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import Reveal from "./Reveal";
+import Magnetic from "./MagneticButton";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function Newsletter() {
   }
 
   return (
-    <section className="bg-[var(--color-electric)] py-16 sm:py-20">
+    <section className="relative bg-[var(--color-electric)] py-16 sm:py-20">
       <Reveal className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="font-display text-2xl sm:text-3xl text-white mb-3">
           -10% sur votre première commande
@@ -43,15 +44,26 @@ export default function Newsletter() {
               placeholder="Votre adresse e-mail"
               className="flex-1 px-5 py-3.5 rounded-full text-sm text-[var(--color-beige-darker)] placeholder:text-[var(--color-beige-dark)]/70 focus:outline-none focus:ring-2 focus:ring-white"
             />
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[var(--color-beige-darker)] text-white text-sm font-semibold hover:bg-black transition-colors"
-            >
-              S&apos;inscrire <ArrowRight size={15} />
-            </button>
+            <Magnetic>
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center gap-2 min-h-11 px-6 py-3.5 rounded-full bg-[var(--color-beige-darker)] text-white text-sm font-semibold hover:bg-black transition-colors"
+              >
+                S&apos;inscrire <ArrowRight size={15} />
+              </button>
+            </Magnetic>
           </form>
         )}
       </Reveal>
+
+      <svg
+        className="absolute bottom-0 left-0 w-full h-10 sm:h-14"
+        viewBox="0 0 1440 56"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path d="M0,56 C360,0 1080,0 1440,56 Z" fill="var(--color-beige-darker)" />
+      </svg>
     </section>
   );
 }

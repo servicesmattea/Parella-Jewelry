@@ -157,7 +157,7 @@ export default function BraceletScene({
   }, [slots.length]);
 
   return (
-    <Canvas camera={{ position: [0, 2.4, 2.4], fov: 38 }} dpr={[1, 2]}>
+    <Canvas camera={{ position: [0, 1.8, 3.6], fov: 36 }} dpr={[1, 2]}>
       <ambientLight intensity={0.7} />
       <directionalLight position={[3, 5, 2]} intensity={1.4} />
       <directionalLight position={[-3, 2, -2]} intensity={0.5} />
@@ -184,8 +184,8 @@ export default function BraceletScene({
       </Rig>
       <OrbitControls
         enablePan={false}
-        minDistance={2.4}
-        maxDistance={4.2}
+        minDistance={3.0}
+        maxDistance={5.4}
         maxPolarAngle={Math.PI / 2.1}
         minPolarAngle={Math.PI / 6}
       />

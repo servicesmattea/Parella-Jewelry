@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Cormorant, Inter } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
+import GrainOverlay from "@/components/GrainOverlay";
 import "./globals.css";
 
 const inter = Inter({
@@ -7,10 +8,12 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-const cormorant = Cormorant({
-  variable: "--font-cormorant",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT", "WONK"],
 });
 
 export const metadata: Metadata = {
@@ -27,9 +30,10 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${inter.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${inter.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white text-[var(--foreground)]">
+        <GrainOverlay />
         {children}
       </body>
     </html>

@@ -1,5 +1,6 @@
 import { Gem, Leaf, RefreshCcw, Truck } from "lucide-react";
 import Reveal from "./Reveal";
+import TiltCard from "./TiltCard";
 
 const ITEMS = [
   {
@@ -40,7 +41,7 @@ export default function Craftsmanship() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {ITEMS.map(({ icon: Icon, title, text }, i) => (
             <Reveal key={title} delay={i * 0.08}>
-              <div className="h-full bg-white rounded-2xl p-7 text-center flex flex-col items-center transition-shadow hover:shadow-lg">
+              <TiltCard max={5} className="h-full bg-white rounded-2xl p-7 text-center flex flex-col items-center shadow-soft hover:shadow-lifted transition-shadow">
                 <div className="w-12 h-12 rounded-full bg-[var(--color-electric)]/10 flex items-center justify-center mb-5">
                   <Icon size={22} className="text-[var(--color-electric)]" />
                 </div>
@@ -50,7 +51,7 @@ export default function Craftsmanship() {
                 <p className="text-sm text-[var(--color-beige-dark)] leading-relaxed">
                   {text}
                 </p>
-              </div>
+              </TiltCard>
             </Reveal>
           ))}
         </div>
