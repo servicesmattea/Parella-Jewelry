@@ -57,7 +57,7 @@ export default function Footer() {
                 key={i}
                 href="#"
                 aria-label="Réseau social"
-                className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--color-electric)] transition-colors"
+                className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center hover:bg-[var(--color-electric)] transition-colors"
               >
                 <Icon width={16} height={16} />
               </a>

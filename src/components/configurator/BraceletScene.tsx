@@ -1,21 +1,50 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useMemo, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
-import type { Mesh } from "three";
+import * as THREE from "three";
 
 export type SlotValue = { hex: string; name: string } | null;
 
 const BAND_RADIUS = 1.5;
 
-function MetalBand({ metal }: { metal: "gold" | "silver" }) {
-  const color = metal === "gold" ? "#D9B65B" : "#C7CCD3";
+function mulberry32(seed: number) {
+  let a = seed;
+  return function () {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function createStoneGeometry(seed: number, radius: number) {
+  const geo = new THREE.IcosahedronGeometry(radius, 0);
+  const pos = geo.attributes.position;
+  const rand = mulberry32(seed);
+  for (let i = 0; i < pos.count; i++) {
+    const jitter = 0.8 + rand() * 0.4;
+    pos.setXYZ(i, pos.getX(i) * jitter, pos.getY(i) * jitter, pos.getZ(i) * jitter);
+  }
+  geo.computeVertexNormals();
+  return geo;
+}
+
+function TransparentCord() {
   return (
     <mesh rotation={[Math.PI / 2, 0, 0]}>
-      <torusGeometry args={[BAND_RADIUS, 0.06, 32, 120]} />
-      <meshStandardMaterial color={color} metalness={0.85} roughness={0.28} />
+      <torusGeometry args={[BAND_RADIUS, 0.022, 16, 120]} />
+      <meshPhysicalMaterial
+        color="#ffffff"
+        transparent
+        opacity={0.4}
+        roughness={0.15}
+        transmission={0.85}
+        thickness={0.05}
+        ior={1.3}
+      />
     </mesh>
   );
 }
@@ -23,20 +52,27 @@ function MetalBand({ metal }: { metal: "gold" | "silver" }) {
 function StoneBead({
   position,
   hex,
+  index,
   selected,
   onClick,
 }: {
   position: [number, number, number];
   hex: string;
+  index: number;
   selected: boolean;
   onClick: () => void;
 }) {
-  const ref = useRef<Mesh>(null);
+  const ref = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
+  const geometry = useMemo(() => createStoneGeometry(index + 1, 0.1), [index]);
+  const baseRotation = useMemo(() => {
+    const rand = mulberry32(index + 101);
+    return [rand() * Math.PI, rand() * Math.PI, rand() * Math.PI] as const;
+  }, [index]);
 
   useFrame(() => {
     if (!ref.current) return;
-    const target = hovered || selected ? 1.25 : 1;
+    const target = hovered || selected ? 1.3 : 1;
     const current = ref.current.scale.x;
     ref.current.scale.setScalar(current + (target - current) * 0.15);
   });
@@ -45,6 +81,8 @@ function StoneBead({
     <mesh
       ref={ref}
       position={position}
+      rotation={baseRotation as unknown as [number, number, number]}
+      geometry={geometry}
       onClick={(e) => {
         e.stopPropagation();
         onClick();
@@ -55,13 +93,14 @@ function StoneBead({
       }}
       onPointerOut={() => setHovered(false)}
     >
-      <sphereGeometry args={[0.17, 32, 32]} />
-      <meshStandardMaterial
+      <meshPhysicalMaterial
         color={hex}
-        metalness={0.15}
-        roughness={0.25}
+        roughness={0.45}
+        metalness={0}
+        clearcoat={0.4}
+        clearcoatRoughness={0.3}
         emissive={selected ? hex : "#000000"}
-        emissiveIntensity={selected ? 0.45 : 0}
+        emissiveIntensity={selected ? 0.4 : 0}
       />
     </mesh>
   );
@@ -82,28 +121,26 @@ function EmptySlotMarker({
         onClick();
       }}
     >
-      <torusGeometry args={[0.17, 0.018, 16, 32]} />
-      <meshStandardMaterial color="#B9A17E" transparent opacity={0.5} />
+      <torusGeometry args={[0.1, 0.012, 12, 24]} />
+      <meshStandardMaterial color="#B9A17E" transparent opacity={0.45} />
     </mesh>
   );
 }
 
 function Rig({ children }: { children: React.ReactNode }) {
-  const group = useRef<import("three").Group>(null);
+  const group = useRef<THREE.Group>(null);
   useFrame((_, delta) => {
-    if (group.current) group.current.rotation.y += delta * 0.12;
+    if (group.current) group.current.rotation.y += delta * 0.1;
   });
   return <group ref={group}>{children}</group>;
 }
 
 export default function BraceletScene({
   slots,
-  metal,
   activeSlot,
   onSelectSlot,
 }: {
   slots: SlotValue[];
-  metal: "gold" | "silver";
   activeSlot: number;
   onSelectSlot: (i: number) => void;
 }) {
@@ -125,13 +162,14 @@ export default function BraceletScene({
       <directionalLight position={[3, 5, 2]} intensity={1.4} />
       <directionalLight position={[-3, 2, -2]} intensity={0.5} />
       <Rig>
-        <MetalBand metal={metal} />
+        <TransparentCord />
         {slots.map((s, i) =>
           s ? (
             <StoneBead
               key={i}
               position={positions[i]}
               hex={s.hex}
+              index={i}
               selected={activeSlot === i}
               onClick={() => onSelectSlot(i)}
             />

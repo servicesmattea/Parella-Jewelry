@@ -1,11 +1,25 @@
 "use client";
 
 import { Heart, ShoppingBag } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { Bracelet } from "@/data/bracelets";
+import StoneBead2D from "./StoneBead2D";
+
+function useBeadPath(count: number) {
+  return useMemo(() => {
+    return Array.from({ length: count }, (_, i) => {
+      const t = i / (count - 1);
+      const x = 6 + t * 88;
+      const y = 50 + Math.sin(t * Math.PI * 2.3) * 22;
+      return { x, y };
+    });
+  }, [count]);
+}
 
 export default function BraceletCard({ bracelet }: { bracelet: Bracelet }) {
   const [liked, setLiked] = useState(false);
+  const points = useBeadPath(bracelet.beadCount);
+  const polylinePoints = points.map((p) => `${p.x},${p.y}`).join(" ");
 
   return (
     <div className="group">
@@ -18,18 +32,36 @@ export default function BraceletCard({ bracelet }: { bracelet: Bracelet }) {
         <button
           onClick={() => setLiked((v) => !v)}
           aria-label="Ajouter aux favoris"
-          className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 flex items-center justify-center text-[var(--color-beige-darker)] hover:text-[var(--color-electric)] transition-colors"
+          className="absolute top-3 right-3 z-10 w-11 h-11 rounded-full bg-white/90 flex items-center justify-center text-[var(--color-beige-darker)] hover:text-[var(--color-electric)] transition-colors"
         >
           <Heart size={16} fill={liked ? "currentColor" : "none"} className={liked ? "text-[var(--color-electric)]" : ""} />
         </button>
 
-        <div className="relative w-2/3 h-2 rounded-full bg-[linear-gradient(90deg,#d8c7a8,#c2a36f)] flex items-center justify-between px-1 group-hover:scale-105 transition-transform">
-          {Array.from({ length: 6 }).map((_, i) => (
+        <div className="relative w-[88%] h-[60%] group-hover:scale-105 transition-transform">
+          <svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="absolute inset-0 w-full h-full"
+          >
+            <polyline
+              points={polylinePoints}
+              fill="none"
+              stroke="rgba(180,190,200,0.55)"
+              strokeWidth={0.6}
+            />
+          </svg>
+          {points.map((p, i) => (
             <span
               key={i}
-              className="w-4 h-4 rounded-full ring-2 ring-white shadow"
-              style={{ background: bracelet.stoneHex }}
-            />
+              className="absolute"
+              style={{
+                left: `${p.x}%`,
+                top: `${p.y}%`,
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              <StoneBead2D hex={bracelet.stoneHex} index={i} size={9} />
+            </span>
           ))}
         </div>
 
@@ -40,11 +72,11 @@ export default function BraceletCard({ bracelet }: { bracelet: Bracelet }) {
         <div>
           <h3 className="font-display text-lg text-[var(--color-beige-darker)]">{bracelet.name}</h3>
           <p className="text-sm text-[var(--color-beige-dark)] mt-0.5">{bracelet.description}</p>
-          <p className="text-xs text-[var(--color-beige-dark)]/80 mt-0.5">{bracelet.metal}</p>
+          <p className="text-xs text-[var(--color-beige-dark)]/80 mt-0.5">{bracelet.beadCount} perles naturelles</p>
         </div>
         <button
           aria-label={`Ajouter ${bracelet.name} au panier`}
-          className="mt-1 w-10 h-10 shrink-0 rounded-full bg-[var(--color-beige-darker)] text-white flex items-center justify-center hover:bg-[var(--color-electric)] transition-colors"
+          className="mt-1 w-11 h-11 shrink-0 rounded-full bg-[var(--color-beige-darker)] text-white flex items-center justify-center hover:bg-[var(--color-electric)] transition-colors"
         >
           <ShoppingBag size={16} />
         </button>

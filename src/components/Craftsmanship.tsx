@@ -1,4 +1,5 @@
 import { Gem, Leaf, RefreshCcw, Truck } from "lucide-react";
+import Reveal from "./Reveal";
 
 const ITEMS = [
   {
@@ -27,31 +28,30 @@ export default function Craftsmanship() {
   return (
     <section id="maison" className="bg-[var(--color-cream)] py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-xl mx-auto mb-14">
+        <Reveal className="text-center max-w-xl mx-auto mb-14">
           <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
             Notre maison
           </span>
           <h2 className="font-display text-3xl sm:text-4xl text-[var(--color-beige-darker)] mt-3">
             Une joaillerie pensée avec soin
           </h2>
-        </div>
+        </Reveal>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {ITEMS.map(({ icon: Icon, title, text }) => (
-            <div
-              key={title}
-              className="bg-white rounded-2xl p-7 text-center flex flex-col items-center"
-            >
-              <div className="w-12 h-12 rounded-full bg-[var(--color-electric)]/10 flex items-center justify-center mb-5">
-                <Icon size={22} className="text-[var(--color-electric)]" />
+          {ITEMS.map(({ icon: Icon, title, text }, i) => (
+            <Reveal key={title} delay={i * 0.08}>
+              <div className="h-full bg-white rounded-2xl p-7 text-center flex flex-col items-center transition-shadow hover:shadow-lg">
+                <div className="w-12 h-12 rounded-full bg-[var(--color-electric)]/10 flex items-center justify-center mb-5">
+                  <Icon size={22} className="text-[var(--color-electric)]" />
+                </div>
+                <h3 className="font-display text-lg text-[var(--color-beige-darker)] mb-2">
+                  {title}
+                </h3>
+                <p className="text-sm text-[var(--color-beige-dark)] leading-relaxed">
+                  {text}
+                </p>
               </div>
-              <h3 className="font-display text-lg text-[var(--color-beige-darker)] mb-2">
-                {title}
-              </h3>
-              <p className="text-sm text-[var(--color-beige-dark)] leading-relaxed">
-                {text}
-              </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

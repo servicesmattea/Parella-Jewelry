@@ -1,4 +1,17 @@
 import { Sparkles } from "lucide-react";
+import StoneBead2D from "./StoneBead2D";
+import Reveal from "./Reveal";
+
+const RING_COLORS = [
+  "#E7B9C4",
+  "#2A4B9B",
+  "#E2B33C",
+  "#5A6B73",
+  "#2FA0A0",
+  "#7A1F2B",
+  "#8E6BBF",
+  "#B6792A",
+];
 
 export default function Hero() {
   return (
@@ -7,7 +20,7 @@ export default function Hero() {
       <div className="absolute -bottom-32 -left-24 w-[26rem] h-[26rem] rounded-full bg-[var(--color-beige)]/30 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 items-center">
-        <div>
+        <Reveal>
           <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-medium tracking-wide uppercase text-[var(--color-electric)] bg-[var(--color-electric)]/10 px-3 py-1.5 rounded-full">
             <Sparkles size={14} />
             Nouvelle collection Pierres Naturelles
@@ -27,13 +40,13 @@ export default function Hero() {
           <div className="mt-9 flex flex-wrap gap-4">
             <a
               href="#bracelets"
-              className="px-7 py-3.5 rounded-full bg-[var(--color-beige-darker)] text-white text-sm font-semibold tracking-wide hover:bg-[var(--color-electric)] transition-colors"
+              className="inline-flex items-center min-h-11 px-7 py-3.5 rounded-full bg-[var(--color-beige-darker)] text-white text-sm font-semibold tracking-wide hover:bg-[var(--color-electric)] transition-colors"
             >
               Découvrir la collection
             </a>
             <a
               href="#configurateur"
-              className="px-7 py-3.5 rounded-full border-2 border-[var(--color-electric)] text-[var(--color-electric)] text-sm font-semibold tracking-wide hover:bg-[var(--color-electric)] hover:text-white transition-colors"
+              className="inline-flex items-center min-h-11 px-7 py-3.5 rounded-full border-2 border-[var(--color-electric)] text-[var(--color-electric)] text-sm font-semibold tracking-wide hover:bg-[var(--color-electric)] hover:text-white transition-colors"
             >
               Créer mon bracelet
             </a>
@@ -55,38 +68,29 @@ export default function Hero() {
               <p className="text-xs text-[var(--color-beige-dark)] mt-1">Pierres naturelles</p>
             </div>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="relative aspect-square w-full max-w-lg mx-auto">
+        <Reveal delay={0.15} className="relative aspect-square w-full max-w-lg mx-auto">
           <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-[var(--color-electric)] via-[var(--color-electric-light)] to-[var(--color-beige)] opacity-90" />
           <div className="absolute inset-3 rounded-[2.2rem] bg-[var(--color-cream)] flex items-center justify-center overflow-hidden">
-            <div className="relative w-3/4 aspect-square rounded-full border-[14px] border-[var(--color-beige)]/60 flex items-center justify-center">
-              {Array.from({ length: 8 }).map((_, i) => {
-                const angle = (i / 8) * Math.PI * 2;
-                const r = 42;
+            <div className="relative w-3/4 aspect-square rounded-full border-2 border-white/70 ring-1 ring-[var(--color-beige)]/20 flex items-center justify-center">
+              {Array.from({ length: 24 }).map((_, i) => {
+                const angle = (i / 24) * Math.PI * 2;
+                const r = 44;
                 const x = 50 + r * Math.cos(angle);
                 const y = 50 + r * Math.sin(angle);
-                const colors = [
-                  "#E7B9C4",
-                  "#2A4B9B",
-                  "#E2B33C",
-                  "#5A6B73",
-                  "#2FA0A0",
-                  "#7A1F2B",
-                  "#8E6BBF",
-                  "#B6792A",
-                ];
                 return (
                   <span
                     key={i}
-                    className="absolute w-6 h-6 rounded-full shadow-md ring-2 ring-white"
+                    className="absolute"
                     style={{
                       left: `${x}%`,
                       top: `${y}%`,
                       transform: "translate(-50%, -50%)",
-                      background: colors[i],
                     }}
-                  />
+                  >
+                    <StoneBead2D hex={RING_COLORS[i % RING_COLORS.length]} index={i} size={15} />
+                  </span>
                 );
               })}
               <p className="text-xs uppercase tracking-widest text-[var(--color-beige-dark)] text-center px-6">
@@ -96,7 +100,7 @@ export default function Hero() {
               </p>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -36,7 +36,7 @@ export default function Header() {
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-18 py-3">
           <button
-            className="lg:hidden p-2 -ml-2 text-[var(--color-beige-darker)]"
+            className="lg:hidden w-11 h-11 flex items-center justify-center -ml-2 text-[var(--color-beige-darker)]"
             onClick={() => setOpen(true)}
             aria-label="Ouvrir le menu"
           >
@@ -55,23 +55,23 @@ export default function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-[var(--color-beige-darker)] hover:text-[var(--color-electric)] transition-colors"
+                className="relative text-sm font-medium text-[var(--color-beige-darker)] hover:text-[var(--color-electric)] transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-[var(--color-electric)] after:transition-all hover:after:w-full"
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3 sm:gap-5 text-[var(--color-beige-darker)]">
-            <button aria-label="Rechercher" className="hover:text-[var(--color-electric)] transition-colors hidden sm:block">
+          <div className="flex items-center text-[var(--color-beige-darker)]">
+            <button aria-label="Rechercher" className="w-11 h-11 hidden sm:flex items-center justify-center hover:text-[var(--color-electric)] transition-colors">
               <Search size={20} />
             </button>
-            <button aria-label="Compte" className="hover:text-[var(--color-electric)] transition-colors hidden sm:block">
+            <button aria-label="Compte" className="w-11 h-11 hidden sm:flex items-center justify-center hover:text-[var(--color-electric)] transition-colors">
               <User size={20} />
             </button>
-            <button aria-label="Panier" className="relative hover:text-[var(--color-electric)] transition-colors">
+            <button aria-label="Panier" className="relative w-11 h-11 flex items-center justify-center hover:text-[var(--color-electric)] transition-colors">
               <ShoppingBag size={20} />
-              <span className="absolute -top-1.5 -right-1.5 bg-[var(--color-electric)] text-white text-[10px] leading-none rounded-full w-4 h-4 flex items-center justify-center">
+              <span className="absolute top-1.5 right-1.5 bg-[var(--color-electric)] text-white text-[10px] leading-none rounded-full w-4 h-4 flex items-center justify-center">
                 0
               </span>
             </button>
@@ -87,7 +87,11 @@ export default function Header() {
           >
             <div className="flex items-center justify-between">
               <span className="font-display text-xl text-[var(--color-beige-darker)]">Menu</span>
-              <button onClick={() => setOpen(false)} aria-label="Fermer le menu">
+              <button
+                onClick={() => setOpen(false)}
+                aria-label="Fermer le menu"
+                className="w-11 h-11 -mr-2 flex items-center justify-center"
+              >
                 <X size={22} />
               </button>
             </div>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
+import Reveal from "./Reveal";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function Newsletter() {
 
   return (
     <section className="bg-[var(--color-electric)] py-16 sm:py-20">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
+      <Reveal className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="font-display text-2xl sm:text-3xl text-white mb-3">
           -10% sur votre première commande
         </h2>
@@ -50,7 +51,7 @@ export default function Newsletter() {
             </button>
           </form>
         )}
-      </div>
+      </Reveal>
     </section>
   );
 }
