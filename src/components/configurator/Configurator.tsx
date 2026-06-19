@@ -1,0 +1,168 @@
+"use client";
+
+import dynamic from "next/dynamic";
+import { useMemo, useState } from "react";
+import { stones } from "@/data/stones";
+import type { SlotValue } from "./BraceletScene";
+import { Loader2, RotateCcw, ShoppingBag } from "lucide-react";
+
+const BraceletScene = dynamic(() => import("./BraceletScene"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center text-[var(--color-beige-dark)]">
+      <Loader2 className="animate-spin" size={28} />
+    </div>
+  ),
+});
+
+const SLOT_COUNT = 8;
+const STONE_PRICE = 7;
+const BASE_PRICE = 24;
+
+export default function Configurator() {
+  const [slots, setSlots] = useState<SlotValue[]>(
+    Array.from({ length: SLOT_COUNT }, () => null)
+  );
+  const [metal, setMetal] = useState<"gold" | "silver">("gold");
+  const [activeSlot, setActiveSlot] = useState(0);
+
+  const filledCount = slots.filter(Boolean).length;
+  const price = useMemo(
+    () => BASE_PRICE + filledCount * STONE_PRICE,
+    [filledCount]
+  );
+
+  function assignStone(hex: string, name: string) {
+    setSlots((prev) => {
+      const next = [...prev];
+      next[activeSlot] = { hex, name };
+      return next;
+    });
+    setActiveSlot((i) => (i + 1) % SLOT_COUNT);
+  }
+
+  function reset() {
+    setSlots(Array.from({ length: SLOT_COUNT }, () => null));
+    setActiveSlot(0);
+  }
+
+  return (
+    <section
+      id="configurateur"
+      className="bg-[var(--color-beige-darker)] py-20 sm:py-28"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric-light)]">
+            Configurateur 3D
+          </span>
+          <h2 className="font-display text-3xl sm:text-4xl text-white mt-3">
+            Créez le bracelet qui vous ressemble
+          </h2>
+          <p className="text-sm text-white/70 mt-4">
+            Faites pivoter le bracelet, cliquez sur une perle puis choisissez
+            sa pierre dans la palette. Votre création s&apos;affiche en temps
+            réel, en 3D.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-14 items-start">
+          <div className="relative rounded-3xl bg-gradient-to-br from-white/10 to-white/0 border border-white/10 aspect-square sm:aspect-[4/3.4] overflow-hidden">
+            <BraceletScene
+              slots={slots}
+              metal={metal}
+              activeSlot={activeSlot}
+              onSelectSlot={setActiveSlot}
+            />
+            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white/60 text-xs pointer-events-none">
+              <span>Glissez pour faire pivoter</span>
+              <button
+                onClick={reset}
+                className="pointer-events-auto inline-flex items-center gap-1.5 text-white/80 hover:text-white transition-colors"
+              >
+                <RotateCcw size={13} /> Réinitialiser
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl p-6 sm:p-8">
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="font-display text-xl text-[var(--color-beige-darker)]">
+                Vos perles ({filledCount}/{SLOT_COUNT})
+              </h3>
+            </div>
+            <div className="flex flex-wrap gap-2.5 mb-7">
+              {slots.map((s, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveSlot(i)}
+                  aria-label={`Sélectionner la perle ${i + 1}`}
+                  className={`w-8 h-8 rounded-full border-2 transition-all ${
+                    activeSlot === i
+                      ? "border-[var(--color-electric)] scale-110"
+                      : "border-[var(--color-beige)]/40"
+                  }`}
+                  style={{ background: s ? s.hex : "#F1ECE3" }}
+                />
+              ))}
+            </div>
+
+            <h4 className="text-sm font-semibold text-[var(--color-beige-darker)] mb-3">
+              Choisissez une pierre pour la perle n°{activeSlot + 1}
+            </h4>
+            <div className="grid grid-cols-5 gap-3 mb-7">
+              {stones.map((stone) => (
+                <button
+                  key={stone.id}
+                  onClick={() => assignStone(stone.hex, stone.name)}
+                  title={stone.name}
+                  className="group flex flex-col items-center gap-1.5"
+                >
+                  <span
+                    className="w-9 h-9 rounded-full ring-2 ring-transparent group-hover:ring-[var(--color-electric)] transition-all shadow-sm"
+                    style={{ background: stone.hex }}
+                  />
+                  <span className="text-[10px] text-[var(--color-beige-dark)] text-center leading-tight">
+                    {stone.name}
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            <h4 className="text-sm font-semibold text-[var(--color-beige-darker)] mb-3">
+              Finition de la chaîne
+            </h4>
+            <div className="flex gap-3 mb-8">
+              {(["gold", "silver"] as const).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => setMetal(m)}
+                  className={`flex-1 py-2.5 rounded-full text-sm font-medium border-2 transition-colors ${
+                    metal === m
+                      ? "border-[var(--color-electric)] text-[var(--color-electric)]"
+                      : "border-[var(--color-beige)]/40 text-[var(--color-beige-dark)]"
+                  }`}
+                >
+                  {m === "gold" ? "Doré" : "Argenté"}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center justify-between border-t border-[var(--color-beige)]/30 pt-6">
+              <div>
+                <p className="text-xs text-[var(--color-beige-dark)]">Prix total</p>
+                <p className="font-display text-2xl text-[var(--color-beige-darker)]">
+                  {price.toFixed(2)} €
+                </p>
+              </div>
+              <button className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[var(--color-electric)] text-white text-sm font-semibold hover:bg-[var(--color-electric-dark)] transition-colors">
+                <ShoppingBag size={16} />
+                Ajouter au panier
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

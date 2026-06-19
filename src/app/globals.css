@@ -2,7 +2,16 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1c1a17;
+
+  /* Parella Jewelry palette */
+  --color-electric: #1349ff;
+  --color-electric-dark: #0d35c7;
+  --color-electric-light: #5b7bff;
+  --color-beige: #b9a17e;
+  --color-beige-dark: #6f5d44;
+  --color-beige-darker: #3f3527;
+  --color-cream: #faf7f2;
 }
 
 @theme inline {
@@ -10,17 +19,34 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
+  --font-display: var(--font-playfair);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-electric: var(--color-electric);
+  --color-electric-dark: var(--color-electric-dark);
+  --color-electric-light: var(--color-electric-light);
+  --color-beige: var(--color-beige);
+  --color-beige-dark: var(--color-beige-dark);
+  --color-beige-darker: var(--color-beige-darker);
+  --color-cream: var(--color-cream);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.text-balance {
+  text-wrap: balance;
 }
