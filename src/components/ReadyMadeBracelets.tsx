@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { bracelets } from "@/data/bracelets";
 import BraceletCard, { FeaturedBracelet } from "./BraceletCard";
 import Reveal from "./Reveal";
@@ -49,12 +50,12 @@ export default function ReadyMadeBracelets() {
 
       <Reveal>
         <div className="mt-14 text-center">
-          <a
-            href="#"
+          <Link
+            href="/bracelets"
             className="inline-flex items-center justify-center min-h-11 px-8 py-3.5 rounded-full border-2 border-[var(--color-beige-darker)] text-[var(--color-beige-darker)] text-sm font-semibold tracking-wide hover:bg-[var(--color-beige-darker)] hover:text-white transition-colors"
           >
             Voir toute la collection
-          </a>
+          </Link>
         </div>
       </Reveal>
     </section>
