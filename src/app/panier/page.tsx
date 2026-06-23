@@ -108,6 +108,14 @@ export default function PanierPage() {
                     <p className="text-sm text-[var(--color-beige-dark)]">
                       {item.price.toFixed(2)} € / unité
                     </p>
+                    {item.kind === "custom" && item.customConfig && (
+                      <Link
+                        href={`/configurateur?edit=${item.id}`}
+                        className="text-xs text-[var(--color-electric)] hover:underline"
+                      >
+                        Modifier la composition
+                      </Link>
+                    )}
                   </div>
                   <div className="flex items-center border border-[var(--color-beige)]/40 rounded-full">
                     <button

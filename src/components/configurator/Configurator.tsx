@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { stones } from "@/data/stones";
 import type { SlotValue } from "./BraceletScene";
 import { Check, Loader2, RotateCcw, ShoppingBag } from "lucide-react";
@@ -37,14 +37,27 @@ function resizeSlots(slots: SlotValue[], count: number): SlotValue[] {
   return [...slots, ...Array.from({ length: count - slots.length }, () => null)];
 }
 
-export default function Configurator() {
+export default function Configurator({ editId }: { editId?: string } = {}) {
   const [stoneCount, setStoneCount] = useState(MIN_STONES);
   const [slots, setSlots] = useState<SlotValue[]>(
     Array.from({ length: MIN_STONES }, () => null)
   );
   const [activeSlot, setActiveSlot] = useState(0);
   const [added, setAdded] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const cart = useCart();
+
+  useEffect(() => {
+    if (!editId || editingId) return;
+    const item = cart.items.find(
+      (i) => i.id === editId && i.kind === "custom" && i.customConfig
+    );
+    if (!item?.customConfig) return;
+    setSlots(item.customConfig.slots);
+    setStoneCount(item.customConfig.slots.length);
+    setActiveSlot(0);
+    setEditingId(editId);
+  }, [editId, editingId, cart.items]);
 
   const beadDiameterCm = BRACELET_LENGTH_CM / stoneCount;
 
@@ -77,13 +90,19 @@ export default function Configurator() {
 
   function handleAddToCart() {
     const firstStone = slots.find((s) => s !== null);
-    cart.add({
-      id: `custom-${Date.now()}`,
+    const item = {
+      id: editingId ?? `custom-${Date.now()}`,
       name: `Bracelet personnalisé (${filledCount} pierres)`,
       price,
       hex: firstStone?.hex ?? "#B9A17E",
-      kind: "custom",
-    });
+      kind: "custom" as const,
+      customConfig: { slots },
+    };
+    if (editingId) {
+      cart.update(editingId, item);
+    } else {
+      cart.add(item);
+    }
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
   }
@@ -99,7 +118,7 @@ export default function Configurator() {
             Configurateur 3D
           </span>
           <h2 className="font-display text-3xl sm:text-4xl text-white mt-3">
-            Créez le bracelet qui vous ressemble
+            {editingId ? "Modifiez votre bracelet" : "Créez le bracelet qui vous ressemble"}
           </h2>
           <p className="text-sm text-white/70 mt-4">
             Faites pivoter le bracelet, cliquez sur une perle puis choisissez
@@ -220,11 +239,12 @@ export default function Configurator() {
                 >
                   {added ? (
                     <>
-                      <Check size={16} /> Ajouté
+                      <Check size={16} /> {editingId ? "Mis à jour" : "Ajouté"}
                     </>
                   ) : (
                     <>
-                      <ShoppingBag size={16} /> Ajouter au panier
+                      <ShoppingBag size={16} />{" "}
+                      {editingId ? "Mettre à jour" : "Ajouter au panier"}
                     </>
                   )}
                 </button>

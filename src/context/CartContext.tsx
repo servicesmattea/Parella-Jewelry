@@ -10,6 +10,10 @@ import {
   type ReactNode,
 } from "react";
 
+export type CustomBraceletConfig = {
+  slots: ({ hex: string; name: string } | null)[];
+};
+
 export type CartItem = {
   id: string;
   name: string;
@@ -17,6 +21,7 @@ export type CartItem = {
   hex: string;
   quantity: number;
   kind: "bracelet" | "custom";
+  customConfig?: CustomBraceletConfig;
 };
 
 type CartContextValue = {
@@ -26,6 +31,7 @@ type CartContextValue = {
   add: (item: Omit<CartItem, "quantity">, quantity?: number) => void;
   remove: (id: string) => void;
   setQuantity: (id: string, quantity: number) => void;
+  update: (id: string, item: Omit<CartItem, "quantity">) => void;
   clear: () => void;
 };
 
@@ -75,6 +81,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const update = useCallback((id: string, item: Omit<CartItem, "quantity">) => {
+    setItems((prev) =>
+      prev.map((i) => (i.id === id ? { ...item, quantity: i.quantity } : i))
+    );
+  }, []);
+
   const clear = useCallback(() => setItems([]), []);
 
   const count = useMemo(() => items.reduce((sum, i) => sum + i.quantity, 0), [items]);
@@ -84,7 +96,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <CartContext.Provider value={{ items, count, subtotal, add, remove, setQuantity, clear }}>
+    <CartContext.Provider
+      value={{ items, count, subtotal, add, remove, setQuantity, update, clear }}
+    >
       {children}
     </CartContext.Provider>
   );

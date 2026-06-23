@@ -7,6 +7,11 @@ export const metadata: Metadata = {
     "Créez votre bracelet sur mesure en 3D : choisissez vos 45 pierres naturelles une à une sur un fil élastique transparent.",
 };
 
-export default function ConfigurateurPage() {
-  return <Configurator />;
+export default async function ConfigurateurPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ edit?: string }>;
+}) {
+  const { edit } = await searchParams;
+  return <Configurator editId={edit} />;
 }
