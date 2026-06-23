@@ -49,9 +49,10 @@ export default function Configurator() {
   const beadDiameterCm = BRACELET_LENGTH_CM / stoneCount;
 
   const filledCount = slots.filter(Boolean).length;
+  const extraStones = Math.max(0, filledCount - MIN_STONES);
   const price = useMemo(
-    () => BASE_PRICE + filledCount * STONE_PRICE,
-    [filledCount]
+    () => BASE_PRICE + extraStones * STONE_PRICE,
+    [extraStones]
   );
 
   function changeStoneCount(count: number) {
