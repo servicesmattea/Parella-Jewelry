@@ -5,6 +5,8 @@ import { ArrowRight, Check } from "lucide-react";
 import Reveal from "./Reveal";
 import Magnetic from "./MagneticButton";
 
+export const NEWSLETTER_CODE = "BIENVENUE20";
+
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -19,7 +21,7 @@ export default function Newsletter() {
     <section className="relative bg-[var(--color-electric)] py-16 sm:py-20">
       <Reveal className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="font-display text-2xl sm:text-3xl text-white mb-3">
-          -10% sur votre première commande
+          -20% sur votre première commande
         </h2>
         <p className="text-white/80 text-sm mb-8">
           Inscrivez-vous à notre newsletter pour recevoir votre code de
@@ -28,9 +30,17 @@ export default function Newsletter() {
         </p>
 
         {submitted ? (
-          <p className="inline-flex items-center gap-2 text-white font-medium bg-white/15 px-5 py-3 rounded-full">
-            <Check size={18} /> Merci ! Vérifiez votre boîte mail.
-          </p>
+          <div className="inline-flex flex-col items-center gap-2 text-white font-medium bg-white/15 px-6 py-4 rounded-2xl">
+            <span className="inline-flex items-center gap-2">
+              <Check size={18} /> Merci ! Votre code de réduction&nbsp;:
+            </span>
+            <span className="font-display text-lg tracking-widest bg-white/20 px-4 py-1.5 rounded-full">
+              {NEWSLETTER_CODE}
+            </span>
+            <span className="text-white/70 text-xs">
+              À utiliser dans votre panier, -20% sur votre première commande.
+            </span>
+          </div>
         ) : (
           <form
             onSubmit={handleSubmit}

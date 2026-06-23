@@ -2,18 +2,35 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronRight, Minus, Plus, ShoppingBag, Truck, X } from "lucide-react";
+import { Check, ChevronRight, Minus, Plus, ShoppingBag, Truck, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { NEWSLETTER_CODE } from "@/components/Newsletter";
 import Reveal from "@/components/Reveal";
 import Magnetic from "@/components/MagneticButton";
 
 const FREE_SHIPPING_THRESHOLD = 60;
+const NEWSLETTER_DISCOUNT_RATE = 0.2;
 
 export default function PanierPage() {
   const cart = useCart();
   const [confirmed, setConfirmed] = useState(false);
+  const [promoInput, setPromoInput] = useState("");
+  const [promoError, setPromoError] = useState(false);
+  const [promoApplied, setPromoApplied] = useState(false);
 
   const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - cart.subtotal);
+  const discount = promoApplied ? cart.subtotal * NEWSLETTER_DISCOUNT_RATE : 0;
+  const total = cart.subtotal - discount;
+
+  function handleApplyPromo(e: React.FormEvent) {
+    e.preventDefault();
+    if (promoInput.trim().toUpperCase() === NEWSLETTER_CODE) {
+      setPromoApplied(true);
+      setPromoError(false);
+    } else {
+      setPromoError(true);
+    }
+  }
 
   function handleCheckout() {
     setConfirmed(true);
@@ -143,10 +160,43 @@ export default function PanierPage() {
                 </div>
               )}
 
+              {promoApplied ? (
+                <div className="flex items-center justify-between text-sm text-[var(--color-electric)] mb-5">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Check size={14} /> Code {NEWSLETTER_CODE} (-20%)
+                  </span>
+                  <span>-{discount.toFixed(2)} €</span>
+                </div>
+              ) : (
+                <form onSubmit={handleApplyPromo} className="mb-5">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={promoInput}
+                      onChange={(e) => {
+                        setPromoInput(e.target.value);
+                        setPromoError(false);
+                      }}
+                      placeholder="Code de réduction"
+                      className="flex-1 px-4 py-2.5 rounded-full text-sm bg-white border border-[var(--color-beige)]/40 focus:outline-none focus:ring-2 focus:ring-[var(--color-electric)]"
+                    />
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-full bg-[var(--color-beige-darker)] text-white text-sm font-semibold hover:bg-[var(--color-electric)] transition-colors"
+                    >
+                      Appliquer
+                    </button>
+                  </div>
+                  {promoError && (
+                    <p className="text-xs text-red-500 mt-1.5">Code invalide.</p>
+                  )}
+                </form>
+              )}
+
               <div className="flex items-center justify-between border-t border-[var(--color-beige)]/30 pt-4 mb-6">
                 <span className="font-medium text-[var(--color-beige-darker)]">Total</span>
                 <span className="font-display text-2xl text-[var(--color-beige-darker)]">
-                  {cart.subtotal.toFixed(2)} €
+                  {total.toFixed(2)} €
                 </span>
               </div>
 
