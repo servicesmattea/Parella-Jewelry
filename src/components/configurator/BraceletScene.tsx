@@ -35,7 +35,7 @@ function createStoneGeometry(seed: number, radius: number) {
 function TransparentCord() {
   return (
     <mesh rotation={[Math.PI / 2, 0, 0]}>
-      <torusGeometry args={[BAND_RADIUS, 0.022, 16, 120]} />
+      <torusGeometry args={[BAND_RADIUS, 0.022, 16, 80]} />
       <meshPhysicalMaterial
         color="#ffffff"
         transparent
@@ -79,7 +79,9 @@ function StoneBead({
     if (!ref.current) return;
     const target = hovered || selected ? 1.3 : 1;
     const current = ref.current.scale.x;
-    ref.current.scale.setScalar(current + (target - current) * 0.15);
+    const diff = target - current;
+    if (Math.abs(diff) < 0.001) return;
+    ref.current.scale.setScalar(current + diff * 0.15);
   });
 
   return (
@@ -172,7 +174,11 @@ export default function BraceletScene({
   }, [slots.length]);
 
   return (
-    <Canvas camera={{ position: [0, 1.8, 3.6], fov: 36 }} dpr={[1, 2]}>
+    <Canvas
+      camera={{ position: [0, 1.8, 3.6], fov: 36 }}
+      dpr={[1, 1.5]}
+      performance={{ min: 0.5 }}
+    >
       <ambientLight intensity={0.7} />
       <directionalLight position={[3, 5, 2]} intensity={1.4} />
       <directionalLight position={[-3, 2, -2]} intensity={0.5} />
