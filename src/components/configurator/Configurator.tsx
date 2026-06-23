@@ -38,9 +38,9 @@ function resizeSlots(slots: SlotValue[], count: number): SlotValue[] {
 }
 
 export default function Configurator() {
-  const [stoneCount, setStoneCount] = useState(MAX_STONES);
+  const [stoneCount, setStoneCount] = useState(MIN_STONES);
   const [slots, setSlots] = useState<SlotValue[]>(
-    Array.from({ length: MAX_STONES }, () => null)
+    Array.from({ length: MIN_STONES }, () => null)
   );
   const [activeSlot, setActiveSlot] = useState(0);
   const [added, setAdded] = useState(false);
