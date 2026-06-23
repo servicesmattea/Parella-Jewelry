@@ -42,7 +42,7 @@ export default function Magnetic({
 
   return (
     <motion.div
-      className={`inline-block ${className ?? ""}`}
+      className={className ?? "inline-block"}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       style={reduceMotion ? undefined : { x: springX, y: springY }}

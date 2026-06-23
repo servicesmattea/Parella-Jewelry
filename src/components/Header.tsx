@@ -1,47 +1,31 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import SearchOverlay from "./SearchOverlay";
 
 const NAV_LINKS = [
-  { label: "Bracelets", href: "#bracelets" },
-  { label: "Créer le mien", href: "#configurateur" },
-  { label: "Pierres & significations", href: "#pierres" },
-  { label: "Notre maison", href: "#maison" },
+  { label: "Bracelets", href: "/bracelets" },
+  { label: "Créer le mien", href: "/configurateur" },
+  { label: "Pierres & significations", href: "/pierres" },
+  { label: "Notre maison", href: "/notre-maison" },
 ];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [activeHref, setActiveHref] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const pathname = usePathname();
+  const { count } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const elements = NAV_LINKS.map((link) =>
-      document.getElementById(link.href.slice(1))
-    ).filter((el): el is HTMLElement => el !== null);
-
-    if (elements.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveHref(`#${entry.target.id}`);
-          }
-        });
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
-    );
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
   }, []);
 
   return (
@@ -74,9 +58,10 @@ export default function Header() {
 
           <nav className="hidden lg:flex items-center gap-9">
             {NAV_LINKS.map((link) => {
-              const isActive = activeHref === link.href;
+              const isActive =
+                pathname === link.href || pathname.startsWith(`${link.href}/`);
               return (
-                <a
+                <Link
                   key={link.href}
                   href={link.href}
                   aria-current={isActive ? "true" : undefined}
@@ -87,24 +72,36 @@ export default function Header() {
                   }`}
                 >
                   {link.label}
-                </a>
+                </Link>
               );
             })}
           </nav>
 
           <div className="flex items-center text-[var(--color-beige-darker)]">
-            <button aria-label="Rechercher" className="w-11 h-11 hidden sm:flex items-center justify-center hover:text-[var(--color-electric)] transition-colors">
+            <button
+              aria-label="Rechercher"
+              onClick={() => setSearchOpen(true)}
+              className="w-11 h-11 hidden sm:flex items-center justify-center hover:text-[var(--color-electric)] transition-colors"
+            >
               <Search size={20} />
             </button>
-            <button aria-label="Compte" className="w-11 h-11 hidden sm:flex items-center justify-center hover:text-[var(--color-electric)] transition-colors">
+            <Link
+              href="/compte"
+              aria-label="Compte"
+              className="w-11 h-11 hidden sm:flex items-center justify-center hover:text-[var(--color-electric)] transition-colors"
+            >
               <User size={20} />
-            </button>
-            <button aria-label="Panier" className="relative w-11 h-11 flex items-center justify-center hover:text-[var(--color-electric)] transition-colors">
+            </Link>
+            <Link
+              href="/panier"
+              aria-label="Panier"
+              className="relative w-11 h-11 flex items-center justify-center hover:text-[var(--color-electric)] transition-colors"
+            >
               <ShoppingBag size={20} />
               <span className="absolute top-1.5 right-1.5 bg-[var(--color-electric)] text-white text-[10px] leading-none rounded-full w-4 h-4 flex items-center justify-center">
-                0
+                {count}
               </span>
-            </button>
+            </Link>
           </div>
         </div>
       </header>
@@ -127,19 +124,35 @@ export default function Header() {
             </div>
             <nav className="flex flex-col gap-5">
               {NAV_LINKS.map((link) => (
-                <a
+                <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
                   className="text-base font-medium text-[var(--color-beige-darker)]"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
+              <Link
+                href="/compte"
+                onClick={() => setOpen(false)}
+                className="text-base font-medium text-[var(--color-beige-darker)]"
+              >
+                Mon compte
+              </Link>
+              <Link
+                href="/panier"
+                onClick={() => setOpen(false)}
+                className="text-base font-medium text-[var(--color-beige-darker)]"
+              >
+                Panier ({count})
+              </Link>
             </nav>
           </div>
         </div>
       )}
+
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   );
 }

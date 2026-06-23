@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import GrainOverlay from "@/components/GrainOverlay";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { CartProvider } from "@/context/CartContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -34,7 +37,11 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-white text-[var(--foreground)]">
         <GrainOverlay />
-        {children}
+        <CartProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

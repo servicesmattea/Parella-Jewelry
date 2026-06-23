@@ -7,6 +7,7 @@ import type { SlotValue } from "./BraceletScene";
 import { Check, Loader2, RotateCcw, ShoppingBag } from "lucide-react";
 import Reveal from "../Reveal";
 import Magnetic from "../MagneticButton";
+import { useCart } from "@/context/CartContext";
 
 const BraceletScene = dynamic(() => import("./BraceletScene"), {
   ssr: false,
@@ -17,16 +18,35 @@ const BraceletScene = dynamic(() => import("./BraceletScene"), {
   ),
 });
 
-const SLOT_COUNT = 45;
-const STONE_PRICE = 1.2;
-const BASE_PRICE = 19;
+const MAX_STONES = 45;
+const MIN_STONE_CM = 0.5;
+const MAX_STONE_CM = 1;
+// Fixed physical bracelet length: the smallest stones (0.5cm) are what let
+// 45 of them fit around the wrist, so that sets the bracelet's circumference.
+const BRACELET_LENGTH_CM = MAX_STONES * MIN_STONE_CM;
+// Fewer, bigger stones can't be smaller than MAX_STONE_CM each, which sets
+// the floor on how few stones can still fill the bracelet.
+const MIN_STONES = Math.ceil(BRACELET_LENGTH_CM / MAX_STONE_CM);
+
+const STONE_PRICE = 0.5;
+const BASE_PRICE = 25;
+
+function resizeSlots(slots: SlotValue[], count: number): SlotValue[] {
+  if (count === slots.length) return slots;
+  if (count < slots.length) return slots.slice(0, count);
+  return [...slots, ...Array.from({ length: count - slots.length }, () => null)];
+}
 
 export default function Configurator() {
+  const [stoneCount, setStoneCount] = useState(MAX_STONES);
   const [slots, setSlots] = useState<SlotValue[]>(
-    Array.from({ length: SLOT_COUNT }, () => null)
+    Array.from({ length: MAX_STONES }, () => null)
   );
   const [activeSlot, setActiveSlot] = useState(0);
   const [added, setAdded] = useState(false);
+  const cart = useCart();
+
+  const beadDiameterCm = BRACELET_LENGTH_CM / stoneCount;
 
   const filledCount = slots.filter(Boolean).length;
   const price = useMemo(
@@ -34,21 +54,35 @@ export default function Configurator() {
     [filledCount]
   );
 
+  function changeStoneCount(count: number) {
+    setStoneCount(count);
+    setSlots((prev) => resizeSlots(prev, count));
+    setActiveSlot((i) => Math.min(i, count - 1));
+  }
+
   function assignStone(hex: string, name: string) {
     setSlots((prev) => {
       const next = [...prev];
       next[activeSlot] = { hex, name };
       return next;
     });
-    setActiveSlot((i) => (i + 1) % SLOT_COUNT);
+    setActiveSlot((i) => (i + 1) % stoneCount);
   }
 
   function reset() {
-    setSlots(Array.from({ length: SLOT_COUNT }, () => null));
+    setSlots(Array.from({ length: stoneCount }, () => null));
     setActiveSlot(0);
   }
 
   function handleAddToCart() {
+    const firstStone = slots.find((s) => s !== null);
+    cart.add({
+      id: `custom-${Date.now()}`,
+      name: `Bracelet personnalisé (${filledCount} pierres)`,
+      price,
+      hex: firstStone?.hex ?? "#B9A17E",
+      kind: "custom",
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
   }
@@ -78,6 +112,7 @@ export default function Configurator() {
             <BraceletScene
               slots={slots}
               activeSlot={activeSlot}
+              beadDiameterCm={beadDiameterCm}
               onSelectSlot={setActiveSlot}
             />
             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white/60 text-xs pointer-events-none">
@@ -94,9 +129,37 @@ export default function Configurator() {
           <div className="bg-white rounded-3xl p-6 sm:p-8">
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-display text-xl text-[var(--color-beige-darker)]">
-                Vos perles ({filledCount}/{SLOT_COUNT})
+                Vos perles ({filledCount}/{stoneCount})
               </h3>
             </div>
+
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-2">
+                <label
+                  htmlFor="stone-count"
+                  className="text-sm font-semibold text-[var(--color-beige-darker)]"
+                >
+                  Nombre de perles
+                </label>
+                <span className="text-xs text-[var(--color-beige-dark)]">
+                  {stoneCount} perles &middot; {beadDiameterCm.toFixed(2)} cm / perle
+                </span>
+              </div>
+              <input
+                id="stone-count"
+                type="range"
+                min={MIN_STONES}
+                max={MAX_STONES}
+                value={stoneCount}
+                onChange={(e) => changeStoneCount(Number(e.target.value))}
+                className="w-full accent-[var(--color-electric)]"
+              />
+              <div className="flex justify-between text-[10px] text-[var(--color-beige-dark)] mt-1">
+                <span>{MIN_STONES} (pierres ~1 cm)</span>
+                <span>{MAX_STONES} (pierres ~0.5 cm)</span>
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-1.5 mb-7 max-h-32 overflow-y-auto pr-1">
               {slots.map((s, i) => (
                 <button

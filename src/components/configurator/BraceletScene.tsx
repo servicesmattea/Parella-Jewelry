@@ -53,18 +53,23 @@ function StoneBead({
   position,
   hex,
   index,
+  radius,
   selected,
   onClick,
 }: {
   position: [number, number, number];
   hex: string;
   index: number;
+  radius: number;
   selected: boolean;
   onClick: () => void;
 }) {
   const ref = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
-  const geometry = useMemo(() => createStoneGeometry(index + 1, 0.1), [index]);
+  const geometry = useMemo(
+    () => createStoneGeometry(index + 1, radius),
+    [index, radius]
+  );
   const baseRotation = useMemo(() => {
     const rand = mulberry32(index + 101);
     return [rand() * Math.PI, rand() * Math.PI, rand() * Math.PI] as const;
@@ -108,9 +113,11 @@ function StoneBead({
 
 function EmptySlotMarker({
   position,
+  radius,
   onClick,
 }: {
   position: [number, number, number];
+  radius: number;
   onClick: () => void;
 }) {
   return (
@@ -121,7 +128,7 @@ function EmptySlotMarker({
         onClick();
       }}
     >
-      <torusGeometry args={[0.1, 0.012, 12, 24]} />
+      <torusGeometry args={[radius, 0.012, 12, 24]} />
       <meshStandardMaterial color="#B9A17E" transparent opacity={0.45} />
     </mesh>
   );
@@ -135,15 +142,23 @@ function Rig({ children }: { children: React.ReactNode }) {
   return <group ref={group}>{children}</group>;
 }
 
+// Scene units per cm of real bead diameter, calibrated so the original
+// fixed 0.1 radius corresponds to a ~0.77cm bead.
+const SCENE_UNITS_PER_CM = 0.26;
+
 export default function BraceletScene({
   slots,
   activeSlot,
+  beadDiameterCm = 0.77,
   onSelectSlot,
 }: {
   slots: SlotValue[];
   activeSlot: number;
+  beadDiameterCm?: number;
   onSelectSlot: (i: number) => void;
 }) {
+  const beadRadius = (beadDiameterCm / 2) * SCENE_UNITS_PER_CM;
+
   const positions = useMemo<[number, number, number][]>(() => {
     const n = slots.length;
     return Array.from({ length: n }, (_, i) => {
@@ -170,6 +185,7 @@ export default function BraceletScene({
               position={positions[i]}
               hex={s.hex}
               index={i}
+              radius={beadRadius}
               selected={activeSlot === i}
               onClick={() => onSelectSlot(i)}
             />
@@ -177,6 +193,7 @@ export default function BraceletScene({
             <EmptySlotMarker
               key={i}
               position={positions[i]}
+              radius={beadRadius}
               onClick={() => onSelectSlot(i)}
             />
           )

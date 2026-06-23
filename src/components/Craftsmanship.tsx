@@ -25,18 +25,24 @@ const ITEMS = [
   },
 ];
 
-export default function Craftsmanship() {
+export default function Craftsmanship({
+  showHeading = true,
+}: {
+  showHeading?: boolean;
+}) {
   return (
     <section id="maison" className="bg-[var(--color-cream)] py-20 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center max-w-xl mx-auto mb-14">
-          <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
-            Notre maison
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl text-[var(--color-beige-darker)] mt-3">
-            Une joaillerie pensée avec soin
-          </h2>
-        </Reveal>
+        {showHeading && (
+          <Reveal className="text-center max-w-xl mx-auto mb-14">
+            <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
+              Notre maison
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl text-[var(--color-beige-darker)] mt-3">
+              Une joaillerie pensée avec soin
+            </h2>
+          </Reveal>
+        )}
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {ITEMS.map(({ icon: Icon, title, text }, i) => (

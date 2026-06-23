@@ -6,25 +6,35 @@ import { stones } from "@/data/stones";
 import { Gem, Sparkles } from "lucide-react";
 import Reveal from "./Reveal";
 
-export default function StoneGuide() {
-  const [activeId, setActiveId] = useState(stones[0].id);
+export default function StoneGuide({
+  initialStoneId,
+  showHeading = true,
+}: {
+  initialStoneId?: string;
+  showHeading?: boolean;
+}) {
+  const [activeId, setActiveId] = useState(
+    stones.some((s) => s.id === initialStoneId) ? initialStoneId! : stones[0].id
+  );
   const active = stones.find((s) => s.id === activeId) ?? stones[0];
 
   return (
     <section id="pierres" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-      <Reveal className="text-center max-w-2xl mx-auto mb-12">
-        <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
-          Le langage des pierres
-        </span>
-        <h2 className="font-display text-3xl sm:text-4xl text-[var(--color-beige-darker)] mt-3">
-          Chaque pierre porte une signification
-        </h2>
-        <p className="text-sm text-[var(--color-beige-dark)] mt-4">
-          Faites défiler la liste pour découvrir l&apos;histoire, la
-          signification et les bienfaits de chaque pierre naturelle utilisée
-          dans nos créations.
-        </p>
-      </Reveal>
+      {showHeading && (
+        <Reveal className="text-center max-w-2xl mx-auto mb-12">
+          <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
+            Le langage des pierres
+          </span>
+          <h2 className="font-display text-3xl sm:text-4xl text-[var(--color-beige-darker)] mt-3">
+            Chaque pierre porte une signification
+          </h2>
+          <p className="text-sm text-[var(--color-beige-dark)] mt-4">
+            Faites défiler la liste pour découvrir l&apos;histoire, la
+            signification et les bienfaits de chaque pierre naturelle utilisée
+            dans nos créations.
+          </p>
+        </Reveal>
+      )}
 
       <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-3 mb-10 px-1 -mx-1">
         {stones.map((stone) => {
