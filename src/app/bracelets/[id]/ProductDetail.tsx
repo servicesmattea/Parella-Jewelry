@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Check, ChevronRight, Gem, Minus, Plus, ShoppingBag, Sparkles } from "lucide-react";
+import { Check, ChevronRight, Gem, Minus, Plus, ShieldAlert, ShoppingBag, Sparkles } from "lucide-react";
 import type { Bracelet } from "@/data/bracelets";
-import type { Stone } from "@/data/stones";
+import { categoryLabels, type Stone } from "@/data/stones";
 import { BeadStrand } from "@/components/BraceletCard";
 import BraceletCard from "@/components/BraceletCard";
 import Reveal from "@/components/Reveal";
@@ -79,7 +79,9 @@ export default function ProductDetail({
 
           <div className="flex items-center gap-2.5 mt-6 text-xs text-[var(--color-beige-dark)] bg-[var(--color-cream)] rounded-xl px-4 py-3">
             <Sparkles size={14} className="text-[var(--color-electric)] shrink-0" />
-            {bracelet.beadCount} pierres naturelles · fil élastique transparent
+            {bracelet.beadCount}{" "}
+            {stone ? categoryLabels[stone.category].toLowerCase() : "pierres naturelles"} · fil
+            élastique transparent
           </div>
 
           <div className="mt-8 flex items-center gap-4">
@@ -115,26 +117,35 @@ export default function ProductDetail({
           </div>
 
           {stone && (
-            <Link
-              href={`/pierres?pierre=${stone.id}`}
-              className="mt-8 flex items-start gap-4 rounded-2xl border border-[var(--color-beige)]/30 p-5 hover:border-[var(--color-electric)] transition-colors"
-            >
-              <span
-                className="w-12 h-12 rounded-full shrink-0 ring-2 ring-white shadow-sm mt-0.5"
-                style={{ background: stone.hex }}
-              />
-              <span>
-                <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[var(--color-electric)]">
-                  <Gem size={13} /> La pierre : {stone.name}
+            <>
+              <Link
+                href={`/pierres?pierre=${stone.id}`}
+                className="mt-8 flex items-start gap-4 rounded-2xl border border-[var(--color-beige)]/30 p-5 hover:border-[var(--color-electric)] transition-colors"
+              >
+                <span
+                  className="w-12 h-12 rounded-full shrink-0 ring-2 ring-white shadow-sm mt-0.5"
+                  style={{ background: stone.hex }}
+                />
+                <span>
+                  <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[var(--color-electric)]">
+                    <Gem size={13} /> La pierre : {stone.name}
+                  </span>
+                  <span className="block text-sm text-[var(--color-beige-dark)] mt-1.5 leading-relaxed">
+                    {stone.meaning}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-xs font-medium text-[var(--color-beige-darker)] mt-2">
+                    Découvrir sa signification complète <ChevronRight size={12} />
+                  </span>
                 </span>
-                <span className="block text-sm text-[var(--color-beige-dark)] mt-1.5 leading-relaxed">
-                  {stone.meaning}
-                </span>
-                <span className="inline-flex items-center gap-1 text-xs font-medium text-[var(--color-beige-darker)] mt-2">
-                  Découvrir sa signification complète <ChevronRight size={12} />
-                </span>
-              </span>
-            </Link>
+              </Link>
+
+              {stone.caution && (
+                <div className="flex items-start gap-2.5 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-2xl p-4 mt-3">
+                  <ShieldAlert size={16} className="shrink-0 mt-0.5" />
+                  <span>{stone.caution}</span>
+                </div>
+              )}
+            </>
           )}
         </Reveal>
       </div>
