@@ -142,10 +142,16 @@ export default function ProductDetail({
               href={`/pierres?pierre=${stone.id}`}
               className="mt-4 flex items-start gap-4 rounded-2xl border border-[var(--color-beige)]/30 p-5 hover:border-[var(--color-electric)] transition-colors"
             >
-              <span
-                className="w-12 h-12 rounded-full shrink-0 ring-2 ring-white shadow-sm mt-0.5"
-                style={{ background: stone.hex }}
-              />
+              {stone.photo ? (
+                <span className="relative w-12 h-12 rounded-full shrink-0 ring-2 ring-white shadow-sm mt-0.5 overflow-hidden">
+                  <Image src={stone.photo} alt="" fill sizes="48px" className="object-cover" />
+                </span>
+              ) : (
+                <span
+                  className="w-12 h-12 rounded-full shrink-0 ring-2 ring-white shadow-sm mt-0.5"
+                  style={{ background: stone.hex }}
+                />
+              )}
               <span>
                 <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[var(--color-electric)]">
                   <Gem size={13} /> {stone.name}

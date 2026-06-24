@@ -6,6 +6,8 @@ export type Stone = {
   name: string;
   category: StoneCategory;
   confidence: Confidence;
+  /** Photo réelle du stock, /public/stones/*.jpg. Si absente, on retombe sur un rendu en dégradé (hex). */
+  photo?: string;
   color: string;
   hex: string;
   meaning: string;
@@ -26,6 +28,7 @@ export const categoryLabels: Record<StoneCategory, string> = {
 export const stones: Stone[] = [
   {
     id: "rose-quartz",
+    photo: "/stones/rose-quartz.jpg",
     name: "Quartz Rose",
     category: "pierre-naturelle",
     confidence: "haute",
@@ -43,6 +46,7 @@ export const stones: Stone[] = [
   },
   {
     id: "amethyst",
+    photo: "/stones/amethyst.jpg",
     name: "Améthyste",
     category: "pierre-naturelle",
     confidence: "haute",
@@ -60,6 +64,7 @@ export const stones: Stone[] = [
   },
   {
     id: "carnelian",
+    photo: "/stones/carnelian.jpg",
     name: "Cornaline",
     category: "pierre-naturelle",
     confidence: "haute",
@@ -76,6 +81,7 @@ export const stones: Stone[] = [
   },
   {
     id: "red-jasper",
+    photo: "/stones/red-jasper.jpg",
     name: "Jaspe Rouge",
     category: "pierre-naturelle",
     confidence: "haute",
@@ -91,6 +97,7 @@ export const stones: Stone[] = [
   },
   {
     id: "snowflake-obsidian",
+    photo: "/stones/snowflake-obsidian.jpg",
     name: "Obsidienne Flocon de Neige",
     category: "pierre-naturelle",
     confidence: "haute",
@@ -107,6 +114,7 @@ export const stones: Stone[] = [
   },
   {
     id: "tiger-eye",
+    photo: "/stones/tiger-eye.jpg",
     name: "Œil de Tigre",
     category: "pierre-naturelle",
     confidence: "haute",
@@ -124,6 +132,7 @@ export const stones: Stone[] = [
   },
   {
     id: "lapis-lazuli",
+    photo: "/stones/lapis-lazuli.jpg",
     name: "Lapis-Lazuli",
     category: "pierre-naturelle",
     confidence: "haute",
@@ -141,6 +150,7 @@ export const stones: Stone[] = [
   },
   {
     id: "sodalite",
+    photo: "/stones/sodalite.jpg",
     name: "Sodalite",
     category: "pierre-naturelle",
     confidence: "moyenne",
@@ -158,6 +168,7 @@ export const stones: Stone[] = [
   },
   {
     id: "green-aventurine",
+    photo: "/stones/green-aventurine.jpg",
     name: "Aventurine Verte",
     category: "pierre-naturelle",
     confidence: "haute",
@@ -174,6 +185,7 @@ export const stones: Stone[] = [
   },
   {
     id: "unakite",
+    photo: "/stones/unakite.jpg",
     name: "Unakite",
     category: "pierre-naturelle",
     confidence: "moyenne",
@@ -189,6 +201,7 @@ export const stones: Stone[] = [
   },
   {
     id: "dalmatian-jasper",
+    photo: "/stones/dalmatian-jasper.jpg",
     name: "Jaspe Dalmatien",
     category: "pierre-naturelle",
     confidence: "moyenne",
@@ -205,6 +218,7 @@ export const stones: Stone[] = [
   },
   {
     id: "white-howlite",
+    photo: "/stones/white-howlite.jpg",
     name: "Howlite Blanche",
     category: "pierre-naturelle",
     confidence: "moyenne",
@@ -222,6 +236,7 @@ export const stones: Stone[] = [
   },
   {
     id: "labradorite",
+    photo: "/stones/labradorite.jpg",
     name: "Labradorite",
     category: "pierre-naturelle",
     confidence: "haute",
@@ -239,6 +254,7 @@ export const stones: Stone[] = [
   },
   {
     id: "amazonite",
+    photo: "/stones/amazonite.jpg",
     name: "Amazonite",
     category: "pierre-naturelle",
     confidence: "moyenne",
@@ -254,6 +270,7 @@ export const stones: Stone[] = [
   },
   {
     id: "prehnite",
+    photo: "/stones/prehnite.jpg",
     name: "Préhnite",
     category: "pierre-naturelle",
     confidence: "faible",
@@ -271,6 +288,7 @@ export const stones: Stone[] = [
   },
   {
     id: "clear-quartz",
+    photo: "/stones/clear-quartz.jpg",
     name: "Quartz Clair / Cristal de Roche",
     category: "pierre-naturelle",
     confidence: "haute",
@@ -286,6 +304,7 @@ export const stones: Stone[] = [
   },
   {
     id: "citrine",
+    photo: "/stones/citrine.jpg",
     name: "Citrine / Quartz Jaune",
     category: "pierre-naturelle",
     confidence: "moyenne",
@@ -321,6 +340,7 @@ export const stones: Stone[] = [
   },
   {
     id: "dyed-coral-imitation",
+    photo: "/stones/dyed-coral-imitation.jpg",
     name: "Chips Rouges (imitation corail)",
     category: "decorative",
     confidence: "faible",
@@ -354,7 +374,44 @@ export const stones: Stone[] = [
       "Perle décorative en verre ou résine : à présenter comme symbole protecteur traditionnel, jamais comme une pierre naturelle.",
   },
   {
+    id: "peridot",
+    name: "Péridot",
+    category: "pierre-naturelle",
+    confidence: "moyenne",
+    photo: "/stones/peridot.jpg",
+    color: "Vert citron translucide",
+    hex: "#C3D94B",
+    meaning:
+      "Pierre vert citron lumineuse, traditionnellement associée à la joie, à la légèreté et au renouveau.",
+    benefits: [
+      "Apporte légèreté et bonne humeur",
+      "Favorise le renouveau",
+      "Stimule l'énergie positive",
+    ],
+    caution:
+      "Présent en petite quantité dans le stock : composition à reconfirmer avant de l'intégrer largement au catalogue.",
+  },
+  {
+    id: "moonstone-peach",
+    name: "Pierre de Lune Pêche",
+    category: "pierre-naturelle",
+    confidence: "moyenne",
+    photo: "/stones/moonstone-peach.jpg",
+    color: "Pêche opalin",
+    hex: "#E8C4A8",
+    meaning:
+      "Pierre aux reflets pêche délicats, variante de la pierre de lune associée à la douceur et aux nouveaux départs.",
+    benefits: [
+      "Favorise la douceur intérieure",
+      "Accompagne les nouveaux départs",
+      "Apaise les émotions",
+    ],
+    caution:
+      "À distinguer de la cornaline et de l'agate teintée pêche, qui ont un aspect proche : confirmer la matière avant publication.",
+  },
+  {
     id: "mother-of-pearl",
+    photo: "/stones/mother-of-pearl.jpg",
     name: "Nacre / Coquillage",
     category: "matiere-naturelle",
     confidence: "haute",
@@ -372,6 +429,7 @@ export const stones: Stone[] = [
   },
   {
     id: "turquoise",
+    photo: "/stones/turquoise.jpg",
     name: "Turquoise",
     category: "pierre-naturelle",
     confidence: "faible",
@@ -391,6 +449,7 @@ export const stones: Stone[] = [
   },
   {
     id: "black-onyx",
+    photo: "/stones/black-onyx.jpg",
     name: "Onyx Noir / Obsidienne Noire",
     category: "pierre-naturelle",
     confidence: "moyenne",
@@ -409,6 +468,7 @@ export const stones: Stone[] = [
   },
   {
     id: "multicolor-chips",
+    photo: "/stones/multicolor-chips.jpg",
     name: "Chips Multicolores",
     category: "decorative",
     confidence: "faible",

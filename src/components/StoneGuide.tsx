@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { categoryLabels, stones, type StoneCategory } from "@/data/stones";
 import { Gem, Sparkles, ShieldAlert } from "lucide-react";
@@ -81,10 +82,16 @@ export default function StoneGuide({
                   : "border-[var(--color-beige)]/40 text-[var(--color-beige-darker)] hover:border-[var(--color-electric)]"
               }`}
             >
-              <span
-                className="w-3.5 h-3.5 rounded-full ring-1 ring-white/60"
-                style={{ background: stone.hex }}
-              />
+              {stone.photo ? (
+                <span className="relative w-3.5 h-3.5 rounded-full ring-1 ring-white/60 overflow-hidden shrink-0">
+                  <Image src={stone.photo} alt="" fill sizes="14px" className="object-cover" />
+                </span>
+              ) : (
+                <span
+                  className="w-3.5 h-3.5 rounded-full ring-1 ring-white/60"
+                  style={{ background: stone.hex }}
+                />
+              )}
               {stone.name}
             </button>
           );
@@ -106,14 +113,26 @@ export default function StoneGuide({
                 className="absolute inset-0 rounded-full blur-2xl opacity-40"
                 style={{ background: active.hex }}
               />
-              <div className="absolute inset-6 rounded-full bg-white shadow-xl flex items-center justify-center">
-                <div
-                  className="w-28 h-28 sm:w-36 sm:h-36 rounded-full shadow-inner"
-                  style={{
-                    background: `radial-gradient(circle at 35% 30%, white 0%, ${active.hex} 35%, ${active.hex} 100%)`,
-                  }}
-                />
-              </div>
+              {active.photo ? (
+                <div className="absolute inset-4 rounded-full overflow-hidden shadow-xl">
+                  <Image
+                    src={active.photo}
+                    alt={active.name}
+                    fill
+                    sizes="(min-width: 1024px) 30vw, 60vw"
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="absolute inset-6 rounded-full bg-white shadow-xl flex items-center justify-center">
+                  <div
+                    className="w-28 h-28 sm:w-36 sm:h-36 rounded-full shadow-inner"
+                    style={{
+                      background: `radial-gradient(circle at 35% 30%, white 0%, ${active.hex} 35%, ${active.hex} 100%)`,
+                    }}
+                  />
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>

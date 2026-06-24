@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
 import { bracelets, getBraceletStoneHex } from "@/data/bracelets";
@@ -107,7 +108,13 @@ export default function SearchOverlay({
                   onClick={onClose}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[var(--color-cream)] transition-colors"
                 >
-                  <span className="w-9 h-9 rounded-full shrink-0" style={{ background: s.hex }} />
+                  {s.photo ? (
+                    <span className="relative w-9 h-9 rounded-full shrink-0 overflow-hidden">
+                      <Image src={s.photo} alt="" fill sizes="36px" className="object-cover" />
+                    </span>
+                  ) : (
+                    <span className="w-9 h-9 rounded-full shrink-0" style={{ background: s.hex }} />
+                  )}
                   <span className="text-sm font-medium text-[var(--color-beige-darker)]">
                     {s.name}
                   </span>
