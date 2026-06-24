@@ -54,7 +54,7 @@ export const bracelets: Bracelet[] = [
     story:
       "Ombre joue la carte du contraste avec un onyx noir profond, pierre de protection et d'ancrage par excellence.",
     stoneHex: "#1B1B1D",
-    stoneId: "onyx",
+    stoneId: "black-onyx",
     beadCount: 47,
   },
   {

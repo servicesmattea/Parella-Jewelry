@@ -2,9 +2,15 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { stones } from "@/data/stones";
-import { Gem, Sparkles } from "lucide-react";
+import { categoryLabels, stones, type StoneCategory } from "@/data/stones";
+import { Gem, Sparkles, ShieldAlert } from "lucide-react";
 import Reveal from "./Reveal";
+
+const categories: StoneCategory[] = [
+  "pierre-naturelle",
+  "matiere-naturelle",
+  "decorative",
+];
 
 export default function StoneGuide({
   initialStoneId,
@@ -13,10 +19,14 @@ export default function StoneGuide({
   initialStoneId?: string;
   showHeading?: boolean;
 }) {
+  const [activeCategory, setActiveCategory] = useState<StoneCategory>(
+    stones.find((s) => s.id === initialStoneId)?.category ?? "pierre-naturelle"
+  );
   const [activeId, setActiveId] = useState(
     stones.some((s) => s.id === initialStoneId) ? initialStoneId! : stones[0].id
   );
   const active = stones.find((s) => s.id === activeId) ?? stones[0];
+  const visibleStones = stones.filter((s) => s.category === activeCategory);
 
   return (
     <section id="pierres" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
@@ -29,15 +39,36 @@ export default function StoneGuide({
             Chaque pierre porte une signification
           </h2>
           <p className="text-sm text-[var(--color-beige-dark)] mt-4">
-            Faites défiler la liste pour découvrir l&apos;histoire, la
-            signification et les bienfaits de chaque pierre naturelle utilisée
-            dans nos créations.
+            Faites défiler la liste pour découvrir l&apos;histoire et la
+            signification de chaque matière utilisée dans nos créations :
+            pierres naturelles, matières naturelles comme la nacre, et perles
+            décoratives.
           </p>
         </Reveal>
       )}
 
+      <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2 mb-4 px-1 -mx-1">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => {
+              setActiveCategory(cat);
+              const first = stones.find((s) => s.category === cat);
+              if (first) setActiveId(first.id);
+            }}
+            className={`shrink-0 inline-flex items-center min-h-9 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide transition-colors ${
+              activeCategory === cat
+                ? "bg-[var(--color-beige-darker)] text-white"
+                : "bg-[var(--color-cream)] text-[var(--color-beige-dark)] hover:bg-[var(--color-beige)]/30"
+            }`}
+          >
+            {categoryLabels[cat]}
+          </button>
+        ))}
+      </div>
+
       <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-3 mb-10 px-1 -mx-1">
-        {stones.map((stone) => {
+        {visibleStones.map((stone) => {
           const isActive = stone.id === activeId;
           return (
             <button
@@ -101,9 +132,13 @@ export default function StoneGuide({
                 {active.color}
               </span>
             </div>
-            <h3 className="font-display text-2xl sm:text-3xl text-[var(--color-beige-darker)] mb-4">
+            <h3 className="font-display text-2xl sm:text-3xl text-[var(--color-beige-darker)] mb-2">
               {active.name}
             </h3>
+            <p className="text-[11px] uppercase tracking-wide text-[var(--color-beige-dark)]/70 mb-4">
+              {categoryLabels[active.category]} · confiance d&apos;identification :{" "}
+              {active.confidence}
+            </p>
             <p className="text-[var(--color-beige-dark)] leading-relaxed mb-6">
               {active.meaning}
             </p>
@@ -123,6 +158,13 @@ export default function StoneGuide({
                 </li>
               ))}
             </ul>
+
+            {active.caution && (
+              <div className="flex items-start gap-2.5 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-xl p-3.5 mb-6">
+                <ShieldAlert size={16} className="shrink-0 mt-0.5" />
+                <span>{active.caution}</span>
+              </div>
+            )}
 
             {active.zodiac && (
               <p className="text-xs text-[var(--color-beige-dark)]/80">

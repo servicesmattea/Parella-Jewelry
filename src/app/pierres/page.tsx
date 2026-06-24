@@ -5,7 +5,7 @@ import Reveal from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Le langage des pierres — Parella Jewelry",
   description:
-    "Découvrez la signification et les bienfaits de chaque pierre naturelle utilisée dans les créations Parella Jewelry.",
+    "Découvrez la signification de chaque pierre naturelle, matière naturelle et perle décorative utilisée dans les créations Parella Jewelry.",
 };
 
 export default async function PierresPage({
@@ -27,9 +27,11 @@ export default async function PierresPage({
               Le langage des pierres
             </h1>
             <p className="text-sm sm:text-base text-[var(--color-beige-dark)] mt-4 max-w-xl">
-              Chaque pierre naturelle que nous enfilons porte une histoire et
-              une signification. Parcourez la liste pour trouver celle qui
-              vous correspond, avant de la composer dans votre bracelet.
+              Chaque matière que nous enfilons porte une histoire. Nous
+              distinguons les pierres naturelles et semi-précieuses, les
+              matières naturelles comme la nacre, et les perles décoratives
+              et fantaisie — pour rester précis et transparents sur ce que
+              vous portez.
             </p>
           </Reveal>
         </div>
