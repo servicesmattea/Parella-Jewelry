@@ -19,9 +19,10 @@ export default function ReadyMadeBracelets() {
             </h2>
           </div>
           <p className="text-sm text-[var(--color-beige-dark)] max-w-sm">
-            Chaque pièce enfile à la main 45 à 50 pierres naturelles
-            sélectionnées sur un fil élastique transparent, résistant et
-            discret au poignet.
+            Chaque pièce enfile à la main des perles sélectionnées — pierres
+            naturelles, matières naturelles ou décoratives selon le modèle —
+            sur un fil élastique transparent, résistant et discret au
+            poignet.
           </p>
         </div>
       </Reveal>

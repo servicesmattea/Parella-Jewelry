@@ -1,11 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Check, ChevronRight, Gem, Minus, Plus, ShieldAlert, ShoppingBag, Sparkles } from "lucide-react";
 import type { Bracelet } from "@/data/bracelets";
+import { getBraceletStoneHex } from "@/data/bracelets";
 import { categoryLabels, type Stone } from "@/data/stones";
-import { BeadStrand } from "@/components/BraceletCard";
 import BraceletCard from "@/components/BraceletCard";
 import Reveal from "@/components/Reveal";
 import Magnetic from "@/components/MagneticButton";
@@ -13,25 +14,29 @@ import { useCart } from "@/context/CartContext";
 
 export default function ProductDetail({
   bracelet,
-  stone,
+  braceletStones,
   related,
 }: {
   bracelet: Bracelet;
-  stone?: Stone;
+  braceletStones: Stone[];
   related: Bracelet[];
 }) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
   const cart = useCart();
 
   function handleAddToCart() {
     cart.add(
-      { id: bracelet.id, name: bracelet.name, price: bracelet.price, hex: bracelet.stoneHex, kind: "bracelet" },
+      { id: bracelet.id, name: bracelet.name, price: bracelet.price, hex: getBraceletStoneHex(bracelet), kind: "bracelet" },
       quantity
     );
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
   }
+
+  const categories = Array.from(new Set(braceletStones.map((s) => categoryLabels[s.category].toLowerCase())));
+  const cautions = braceletStones.filter((s) => s.caution);
 
   return (
     <div className="bg-white">
@@ -47,23 +52,40 @@ export default function ProductDetail({
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 grid lg:grid-cols-2 gap-10 lg:gap-16">
         <Reveal>
-          <div className="relative aspect-square rounded-3xl bg-[var(--color-ink)] overflow-hidden shadow-lifted">
+          <div className="relative aspect-square rounded-3xl bg-[var(--color-cream)] overflow-hidden shadow-lifted">
             {bracelet.badge && (
-              <span className="absolute top-5 left-5 z-10 bg-white/15 backdrop-blur text-white text-[11px] uppercase tracking-wide px-2.5 py-1 rounded-full">
+              <span className="absolute top-5 left-5 z-10 bg-white/80 backdrop-blur text-[var(--color-beige-darker)] text-[11px] uppercase tracking-wide px-2.5 py-1 rounded-full">
                 {bracelet.badge}
               </span>
             )}
-            <div className="absolute inset-0 flex items-center justify-center p-12">
-              <div className="relative w-full h-2/3">
-                <BeadStrand
-                  hex={bracelet.stoneHex}
-                  count={bracelet.beadCount}
-                  beadSize={18}
-                  strokeColor="rgba(255,255,255,0.35)"
-                />
-              </div>
-            </div>
+            <Image
+              src={bracelet.images[activeImage]}
+              alt={bracelet.name}
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+              priority
+            />
           </div>
+          {bracelet.images.length > 1 && (
+            <div className="flex gap-2.5 mt-4">
+              {bracelet.images.map((src, i) => (
+                <button
+                  key={src}
+                  onClick={() => setActiveImage(i)}
+                  aria-label={`Photo ${i + 1} de ${bracelet.name}`}
+                  aria-pressed={i === activeImage}
+                  className={`relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-colors ${
+                    i === activeImage
+                      ? "border-[var(--color-electric)]"
+                      : "border-transparent opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  <Image src={src} alt="" fill sizes="64px" className="object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
         </Reveal>
 
         <Reveal delay={0.1}>
@@ -79,9 +101,7 @@ export default function ProductDetail({
 
           <div className="flex items-center gap-2.5 mt-6 text-xs text-[var(--color-beige-dark)] bg-[var(--color-cream)] rounded-xl px-4 py-3">
             <Sparkles size={14} className="text-[var(--color-electric)] shrink-0" />
-            {bracelet.beadCount}{" "}
-            {stone ? categoryLabels[stone.category].toLowerCase() : "pierres naturelles"} · fil
-            élastique transparent
+            {bracelet.beadCount} {categories.join(" & ")} · fil élastique transparent
           </div>
 
           <div className="mt-8 flex items-center gap-4">
@@ -116,36 +136,40 @@ export default function ProductDetail({
             </Magnetic>
           </div>
 
-          {stone && (
-            <>
-              <Link
-                href={`/pierres?pierre=${stone.id}`}
-                className="mt-8 flex items-start gap-4 rounded-2xl border border-[var(--color-beige)]/30 p-5 hover:border-[var(--color-electric)] transition-colors"
-              >
-                <span
-                  className="w-12 h-12 rounded-full shrink-0 ring-2 ring-white shadow-sm mt-0.5"
-                  style={{ background: stone.hex }}
-                />
-                <span>
-                  <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[var(--color-electric)]">
-                    <Gem size={13} /> La pierre : {stone.name}
-                  </span>
-                  <span className="block text-sm text-[var(--color-beige-dark)] mt-1.5 leading-relaxed">
-                    {stone.meaning}
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs font-medium text-[var(--color-beige-darker)] mt-2">
-                    Découvrir sa signification complète <ChevronRight size={12} />
-                  </span>
+          {braceletStones.map((stone) => (
+            <Link
+              key={stone.id}
+              href={`/pierres?pierre=${stone.id}`}
+              className="mt-4 flex items-start gap-4 rounded-2xl border border-[var(--color-beige)]/30 p-5 hover:border-[var(--color-electric)] transition-colors"
+            >
+              <span
+                className="w-12 h-12 rounded-full shrink-0 ring-2 ring-white shadow-sm mt-0.5"
+                style={{ background: stone.hex }}
+              />
+              <span>
+                <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[var(--color-electric)]">
+                  <Gem size={13} /> {stone.name}
                 </span>
-              </Link>
+                <span className="block text-sm text-[var(--color-beige-dark)] mt-1.5 leading-relaxed">
+                  {stone.meaning}
+                </span>
+                <span className="inline-flex items-center gap-1 text-xs font-medium text-[var(--color-beige-darker)] mt-2">
+                  Découvrir sa signification complète <ChevronRight size={12} />
+                </span>
+              </span>
+            </Link>
+          ))}
 
-              {stone.caution && (
-                <div className="flex items-start gap-2.5 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-2xl p-4 mt-3">
-                  <ShieldAlert size={16} className="shrink-0 mt-0.5" />
-                  <span>{stone.caution}</span>
-                </div>
-              )}
-            </>
+          {(cautions.length > 0 || bracelet.caution) && (
+            <div className="flex items-start gap-2.5 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-2xl p-4 mt-3">
+              <ShieldAlert size={16} className="shrink-0 mt-0.5" />
+              <div className="space-y-2">
+                {bracelet.caution && <p>{bracelet.caution}</p>}
+                {cautions.map((s) => (
+                  <p key={s.id}>{s.caution}</p>
+                ))}
+              </div>
+            </div>
           )}
         </Reveal>
       </div>

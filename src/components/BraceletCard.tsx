@@ -1,52 +1,13 @@
 "use client";
 
 import { Check, Heart, ShoppingBag } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { Bracelet } from "@/data/bracelets";
-import StoneBead2D from "./StoneBead2D";
+import { getBraceletStoneHex } from "@/data/bracelets";
 import TiltCard from "./TiltCard";
-import { beadPathPoint } from "@/lib/beadPath";
 import { useCart } from "@/context/CartContext";
-
-function useBeadPath(count: number) {
-  return useMemo(
-    () => Array.from({ length: count }, (_, i) => beadPathPoint(i / (count - 1))),
-    [count]
-  );
-}
-
-export function BeadStrand({
-  hex,
-  count,
-  beadSize,
-  strokeColor = "rgba(180,190,200,0.55)",
-}: {
-  hex: string;
-  count: number;
-  beadSize: number;
-  strokeColor?: string;
-}) {
-  const points = useBeadPath(count);
-  const polylinePoints = points.map((p) => `${p.x},${p.y}`).join(" ");
-
-  return (
-    <>
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
-        <polyline points={polylinePoints} fill="none" stroke={strokeColor} strokeWidth={0.6} />
-      </svg>
-      {points.map((p, i) => (
-        <span
-          key={i}
-          className="absolute"
-          style={{ left: `${p.x}%`, top: `${p.y}%`, transform: "translate(-50%, -50%)" }}
-        >
-          <StoneBead2D hex={hex} index={i} size={beadSize} />
-        </span>
-      ))}
-    </>
-  );
-}
 
 function useAddedFeedback() {
   const [added, setAdded] = useState(false);
@@ -65,7 +26,7 @@ export default function BraceletCard({ bracelet }: { bracelet: Bracelet }) {
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    cart.add({ id: bracelet.id, name: bracelet.name, price: bracelet.price, hex: bracelet.stoneHex, kind: "bracelet" });
+    cart.add({ id: bracelet.id, name: bracelet.name, price: bracelet.price, hex: getBraceletStoneHex(bracelet), kind: "bracelet" });
     trigger();
   }
 
@@ -90,9 +51,13 @@ export default function BraceletCard({ bracelet }: { bracelet: Bracelet }) {
             <Heart size={16} fill={liked ? "currentColor" : "none"} className={liked ? "text-[var(--color-electric)]" : ""} />
           </button>
 
-          <div className="relative w-[88%] h-[60%] group-hover:scale-105 transition-transform">
-            <BeadStrand hex={bracelet.stoneHex} count={bracelet.beadCount} beadSize={9} />
-          </div>
+          <Image
+            src={bracelet.images[0]}
+            alt={bracelet.name}
+            fill
+            sizes="(min-width: 1024px) 33vw, 50vw"
+            className="object-cover group-hover:scale-105 transition-transform"
+          />
         </TiltCard>
       </Link>
 
@@ -102,7 +67,7 @@ export default function BraceletCard({ bracelet }: { bracelet: Bracelet }) {
             {bracelet.name}
           </h3>
           <p className="text-sm text-[var(--color-beige-dark)] mt-0.5">{bracelet.description}</p>
-          <p className="text-xs text-[var(--color-beige-dark)]/80 mt-0.5">{bracelet.beadCount} perles naturelles</p>
+          <p className="text-xs text-[var(--color-beige-dark)]/80 mt-0.5">{bracelet.beadCount} perles</p>
         </Link>
         <button
           onClick={handleAddToCart}
@@ -125,7 +90,7 @@ export function FeaturedBracelet({ bracelet }: { bracelet: Bracelet }) {
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    cart.add({ id: bracelet.id, name: bracelet.name, price: bracelet.price, hex: bracelet.stoneHex, kind: "bracelet" });
+    cart.add({ id: bracelet.id, name: bracelet.name, price: bracelet.price, hex: getBraceletStoneHex(bracelet), kind: "bracelet" });
     trigger();
   }
 
@@ -135,7 +100,14 @@ export function FeaturedBracelet({ bracelet }: { bracelet: Bracelet }) {
         max={3}
         className="relative h-full min-h-[26rem] rounded-3xl bg-[var(--color-ink)] overflow-hidden p-8 sm:p-10 flex flex-col shadow-lifted"
       >
-        <div className="flex items-start justify-between">
+        <Image
+          src={bracelet.images[0]}
+          alt={bracelet.name}
+          fill
+          sizes="(min-width: 1024px) 66vw, 100vw"
+          className="object-cover opacity-50"
+        />
+        <div className="relative flex items-start justify-between">
           {bracelet.badge && (
             <span className="bg-white/15 backdrop-blur text-white text-[11px] uppercase tracking-wide px-2.5 py-1 rounded-full">
               {bracelet.badge}
@@ -154,16 +126,9 @@ export function FeaturedBracelet({ bracelet }: { bracelet: Bracelet }) {
           </button>
         </div>
 
-        <div className="relative flex-1 my-6">
-          <BeadStrand
-            hex={bracelet.stoneHex}
-            count={bracelet.beadCount}
-            beadSize={15}
-            strokeColor="rgba(255,255,255,0.35)"
-          />
-        </div>
+        <div className="relative flex-1 my-6" />
 
-        <div>
+        <div className="relative">
           <h3 className="font-display text-3xl sm:text-4xl text-white">{bracelet.name}</h3>
           <p className="text-white/70 mt-2 max-w-sm">{bracelet.description}</p>
           <div className="mt-6 flex items-center justify-between">

@@ -303,6 +303,57 @@ export const stones: Stone[] = [
     zodiac: "Gémeaux, Lion",
   },
   {
+    id: "fluorite",
+    name: "Fluorite",
+    category: "pierre-naturelle",
+    confidence: "moyenne",
+    color: "Dégradés violet, vert et blanc",
+    hex: "#9B8EC4",
+    meaning:
+      "Pierre translucide aux dégradés violets et verts, traditionnellement associée à la concentration et à la clarté mentale.",
+    benefits: [
+      "Favorise la concentration",
+      "Apporte de la clarté mentale",
+      "Aide à filtrer les distractions",
+    ],
+    caution:
+      "Les coloris vifs de la fluorite peuvent être naturels ou légèrement rehaussés : à vérifier auprès du fournisseur avant d'affirmer « fluorite 100% naturelle ».",
+  },
+  {
+    id: "dyed-coral-imitation",
+    name: "Chips Rouges (imitation corail)",
+    category: "decorative",
+    confidence: "faible",
+    color: "Rouge vif uniforme",
+    hex: "#C81E1E",
+    meaning:
+      "Perle décorative rouge vif choisie pour son contraste graphique avec le blanc nacré.",
+    benefits: [
+      "Apporte une touche de couleur vive",
+      "Effet graphique rouge et blanc",
+      "Personnalisation audacieuse",
+    ],
+    caution:
+      "Le corail rouge naturel est une espèce protégée : ces perles sont très probablement du corail de bambou teinté ou une imitation en résine — ne jamais annoncer « corail naturel ».",
+  },
+  {
+    id: "evil-eye-bead",
+    name: "Perle Œil Protecteur",
+    category: "decorative",
+    confidence: "haute",
+    color: "Blanc et bleu (motif œil)",
+    hex: "#2E86AB",
+    meaning:
+      "Perle en verre ou résine représentant l'œil protecteur, symbole méditerranéen traditionnel porté contre le mauvais œil.",
+    benefits: [
+      "Symbole de protection traditionnelle",
+      "Apporte une touche graphique",
+      "Pièce de caractère",
+    ],
+    caution:
+      "Perle décorative en verre ou résine : à présenter comme symbole protecteur traditionnel, jamais comme une pierre naturelle.",
+  },
+  {
     id: "mother-of-pearl",
     name: "Nacre / Coquillage",
     category: "matiere-naturelle",

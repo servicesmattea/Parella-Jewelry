@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
-import { bracelets } from "@/data/bracelets";
+import { bracelets, getBraceletStoneHex } from "@/data/bracelets";
 import { stones } from "@/data/stones";
 
 export default function SearchOverlay({
@@ -77,7 +77,7 @@ export default function SearchOverlay({
                 >
                   <span
                     className="w-9 h-9 rounded-full shrink-0"
-                    style={{ background: b.stoneHex }}
+                    style={{ background: getBraceletStoneHex(b) }}
                   />
                   <span className="flex-1">
                     <span className="block text-sm font-medium text-[var(--color-beige-darker)]">

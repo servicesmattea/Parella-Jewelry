@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { bracelets, getBraceletById } from "@/data/bracelets";
-import { stones } from "@/data/stones";
+import { bracelets, getBraceletById, getBraceletStones } from "@/data/bracelets";
 import ProductDetail from "./ProductDetail";
 
 export function generateStaticParams() {
@@ -31,8 +30,8 @@ export default async function BraceletPage({
   const bracelet = getBraceletById(id);
   if (!bracelet) notFound();
 
-  const stone = stones.find((s) => s.id === bracelet.stoneId);
+  const braceletStones = getBraceletStones(bracelet);
   const related = bracelets.filter((b) => b.id !== bracelet.id).slice(0, 3);
 
-  return <ProductDetail bracelet={bracelet} stone={stone} related={related} />;
+  return <ProductDetail bracelet={bracelet} braceletStones={braceletStones} related={related} />;
 }
