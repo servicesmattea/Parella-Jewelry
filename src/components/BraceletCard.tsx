@@ -105,7 +105,7 @@ export function FeaturedBracelet({ bracelet }: { bracelet: Bracelet }) {
           alt={bracelet.name}
           fill
           sizes="(min-width: 1024px) 66vw, 100vw"
-          className="object-cover opacity-50"
+          className="object-cover opacity-0"
         />
         <div className="relative flex items-start justify-between">
           {bracelet.badge && (
