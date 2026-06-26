@@ -58,7 +58,7 @@ export const bracelets: Bracelet[] = [
     story:
       "Éclipse marie la profondeur de l'onyx noir à la douceur du quartz rose, rythmée par une perle œil protecteur. Un bracelet à porter comme un talisman discret.",
     energy: "Protection · Confiance · Équilibre",
-    images: ["/bracelets/eclipse-1.jpg"],
+    images: ["/bracelets/eclipse-1.jpg", "/bracelets/eclipse-2.jpg"],
     stoneIds: ["black-onyx", "rose-quartz", "evil-eye-bead"],
     beadCount: 38,
     badge: "Édition limitée",
