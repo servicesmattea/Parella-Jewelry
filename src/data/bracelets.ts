@@ -22,7 +22,7 @@ export const bracelets: Bracelet[] = [
     story:
       "Domino joue le contraste graphique noir et blanc avec deux teintes de nacre alternées, pour un bracelet sobre et intemporel, à porter seul ou en accumulation.",
     energy: "Élégance · Équilibre · Sérénité",
-    images: ["/bracelets/domino-1.jpg"],
+    images: ["/bracelets/domino-1.jpg", "/bracelets/domino-2.jpg", "/bracelets/domino-3.jpg"],
     stoneIds: ["mother-of-pearl"],
     beadCount: 45,
   },
