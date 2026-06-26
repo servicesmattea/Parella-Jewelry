@@ -20,8 +20,8 @@ export default function ReadyMadeBracelets() {
           </div>
           <p className="text-sm text-[var(--color-beige-dark)] max-w-sm">
             Des bracelets imaginés et réalisés à la main, composés autour de
-            pierres, de couleurs et d'harmonies qui racontent chacune une
-            histoire.
+            pierres, de couleurs et d&apos;harmonies choisies pour l&apos;énergie
+            qu&apos;elles évoquent.
           </p>
         </div>
       </Reveal>

@@ -4,12 +4,12 @@ import Reveal from "./Reveal";
 const REVIEWS = [
   {
     name: "Camille R.",
-    text: "Le configurateur 3D est génial, j'ai pu créer un bracelet avec mes pierres préférées en quelques minutes. La qualité est top !",
+    text: "J'ai pu créer un bracelet avec mes pierres préférées en quelques minutes. La qualité est top !",
     rating: 5,
   },
   {
     name: "Lina B.",
-    text: "Le fil transparent est tellement discret qu'on ne voit que les pierres, c'est exactement l'effet que je voulais. Le bracelet Aube est encore plus joli en vrai.",
+    text: "Le bracelet est encore plus joli en vrai. J'ai adoré choisir mes pierres, c'est exactement l'effet que je voulais.",
     rating: 5,
   },
   {
@@ -24,24 +24,27 @@ export default function Testimonials() {
     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
       <Reveal className="text-center max-w-xl mx-auto mb-14">
         <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
-          Ils nous font confiance
+          Avis clientes
         </span>
         <h2 className="font-display text-3xl sm:text-4xl text-[var(--color-beige-darker)] mt-3">
-          Ce qu&apos;en disent nos clientes
+          Elles portent Parella Atelier
         </h2>
+        <p className="text-sm text-[var(--color-beige-dark)] mt-4">
+          Des créations choisies pour soi, offertes avec attention et portées au quotidien.
+        </p>
       </Reveal>
 
       <div className="grid sm:grid-cols-3 gap-6">
         {REVIEWS.map((r, i) => (
           <Reveal key={r.name} delay={i * 0.08}>
-            <div className="h-full rounded-2xl border border-[var(--color-beige)]/30 p-7 transition-shadow hover:shadow-lg">
-              <div className="flex gap-1 mb-4 text-[var(--color-electric)]">
-                {Array.from({ length: 5 }).map((_, i) => (
+            <div className="h-full rounded-2xl border border-[var(--color-beige)]/30 bg-white p-7 transition-shadow hover:shadow-soft">
+              <div className="flex gap-1 mb-4 text-[var(--color-gold)]">
+                {Array.from({ length: 5 }).map((_, j) => (
                   <Star
-                    key={i}
+                    key={j}
                     size={15}
-                    fill={i < r.rating ? "currentColor" : "none"}
-                    className={i < r.rating ? "" : "text-[var(--color-beige)]/50"}
+                    fill={j < r.rating ? "currentColor" : "none"}
+                    className={j < r.rating ? "" : "text-[var(--color-beige)]/50"}
                   />
                 ))}
               </div>

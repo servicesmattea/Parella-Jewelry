@@ -9,8 +9,8 @@ import SearchOverlay from "./SearchOverlay";
 
 const NAV_LINKS = [
   { label: "Bracelets", href: "/bracelets" },
-  { label: "Imaginer mon bijou", href: "/configurateur" },
-  { label: "Les pierres et signification", href: "/pierres" },
+  { label: "Créer mon bijou", href: "/configurateur" },
+  { label: "Les pierres", href: "/pierres" },
   { label: "L'univers Parella", href: "/notre-maison" },
 ];
 
@@ -51,6 +51,7 @@ export default function Header() {
 
           <Link
             href="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="font-display text-2xl sm:text-3xl tracking-[0.08em] text-[var(--color-beige-darker)]"
           >
             PARELLA <span className="text-[var(--color-gold)]">ATELIER</span>

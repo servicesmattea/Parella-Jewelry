@@ -3,9 +3,9 @@ import StoneGuide from "@/components/StoneGuide";
 import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
-  title: "Le langage des pierres — Parella Atelier",
+  title: "Les pierres — Parella Atelier",
   description:
-    "Découvrez la signification de chaque pierre naturelle, matière naturelle et perle décorative utilisée dans les créations Parella Atelier.",
+    "Découvrez les pierres naturelles choisies pour leurs nuances, leur beauté et les énergies qu'elles peuvent accompagner.",
 };
 
 export default async function PierresPage({
@@ -16,22 +16,20 @@ export default async function PierresPage({
   const { pierre } = await searchParams;
 
   return (
-    <div className="bg-white">
-      <div className="bg-[var(--color-cream)] py-14 sm:py-20">
+    <div className="bg-[var(--color-cream)]">
+      <div className="py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal>
             <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
-              Lithothérapie
+              Les pierres Parella
             </span>
             <h1 className="font-display text-4xl sm:text-5xl text-[var(--color-beige-darker)] mt-3">
-              Le langage des pierres
+              Chaque pierre porte une signification
             </h1>
             <p className="text-sm sm:text-base text-[var(--color-beige-dark)] mt-4 max-w-xl">
-              Chaque matière que nous enfilons porte une histoire. Nous
-              distinguons les pierres naturelles et semi-précieuses, les
-              matières naturelles comme la nacre, et les perles décoratives
-              et fantaisie — pour rester précis et transparents sur ce que
-              vous portez.
+              Des pierres choisies pour leurs nuances, leur beauté et les
+              énergies qu&apos;elles peuvent accompagner. Explorez celles qui
+              vous attirent et laissez-vous guider.
             </p>
           </Reveal>
         </div>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Check, ChevronRight, Gem, Minus, Plus, ShieldAlert, ShoppingBag, Sparkles } from "lucide-react";
+import { Check, ChevronRight, Gem, Minus, Plus, ShoppingBag, Sparkles } from "lucide-react";
 import type { Bracelet } from "@/data/bracelets";
 import { getBraceletStoneHex } from "@/data/bracelets";
 import { categoryLabels, type Stone } from "@/data/stones";
@@ -36,7 +36,6 @@ export default function ProductDetail({
   }
 
   const categories = Array.from(new Set(braceletStones.map((s) => categoryLabels[s.category].toLowerCase())));
-  const cautions = braceletStones.filter((s) => s.caution);
 
   return (
     <div className="bg-white">
@@ -95,13 +94,17 @@ export default function ProductDetail({
           <p className="font-display text-2xl text-[var(--color-electric)] mt-3">
             {bracelet.price.toFixed(2)} €
           </p>
-          <p className="text-[var(--color-beige-dark)] mt-5 leading-relaxed">
+          <p className="text-xs font-medium text-[var(--color-electric)] mt-4 tracking-wide">
+            {bracelet.energy}
+          </p>
+
+          <p className="text-[var(--color-beige-dark)] mt-4 leading-relaxed">
             {bracelet.story}
           </p>
 
           <div className="flex items-center gap-2.5 mt-6 text-xs text-[var(--color-beige-dark)] bg-[var(--color-cream)] rounded-xl px-4 py-3">
             <Sparkles size={14} className="text-[var(--color-electric)] shrink-0" />
-            {bracelet.beadCount} perles · {categories.join(" & ")}
+            {categories.join(" & ")} · réalisé à la main
           </div>
 
           <div className="mt-8 flex items-center gap-4">
@@ -166,17 +169,9 @@ export default function ProductDetail({
             </Link>
           ))}
 
-          {(cautions.length > 0 || bracelet.caution) && (
-            <div className="flex items-start gap-2.5 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-2xl p-4 mt-3">
-              <ShieldAlert size={16} className="shrink-0 mt-0.5" />
-              <div className="space-y-2">
-                {bracelet.caution && <p>{bracelet.caution}</p>}
-                {cautions.map((s) => (
-                  <p key={s.id}>{s.caution}</p>
-                ))}
-              </div>
-            </div>
-          )}
+          <p className="text-xs text-[var(--color-beige-dark)]/70 mt-5 italic">
+            Un bijou à offrir ou à garder comme porte-bonheur du quotidien.
+          </p>
         </Reveal>
       </div>
 

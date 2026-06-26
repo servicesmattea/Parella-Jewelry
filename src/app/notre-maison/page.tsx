@@ -4,66 +4,59 @@ import Craftsmanship from "@/components/Craftsmanship";
 import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
-  title: "Notre maison — Parella Atelier",
+  title: "L'univers Parella — Parella Atelier",
   description:
-    "L'histoire de Parella Atelier : un atelier français dédié à la création de bijoux en pierres naturelles, imaginés et réalisés à la main.",
+    "Parella Atelier imagine des bijoux en pierres naturelles réalisés à la main, pensés pour accompagner les périodes importantes, les cadeaux sincères et les élans personnels.",
 };
-
-const MILESTONES = [
-  { year: "An 1", text: "Premiers bracelets enfilés à la main, dans un petit atelier." },
-  { year: "An 2", text: "Lancement du configurateur 3D, pour composer son bracelet pierre par pierre." },
-  { year: "Aujourd'hui", text: "Plus de 12 000 bracelets portés, chacun unique." },
-];
 
 export default function NotreMaisonPage() {
   return (
-    <div className="bg-white">
-      <div className="bg-[var(--color-cream)] py-16 sm:py-24">
+    <div className="bg-[var(--color-cream)]">
+      <div className="py-16 sm:py-24">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
           <Reveal>
             <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
-              Notre maison
+              L&apos;univers Parella
             </span>
             <h1 className="font-display text-4xl sm:text-5xl text-[var(--color-beige-darker)] mt-4 text-balance">
-              Une joaillerie pensée comme un atelier,{" "}
-              <span className="italic text-[var(--color-electric)]">pas une usine.</span>
+              Des créations pensées pour{" "}
+              <span className="italic text-[var(--color-electric)]">accompagner vos énergies.</span>
             </h1>
             <p className="text-base text-[var(--color-beige-dark)] mt-6 max-w-2xl mx-auto leading-relaxed">
-              Parella Atelier est né d&apos;une idée simple : un bracelet ne
-              devrait jamais cacher ses pierres derrière une chaîne épaisse.
-              Nous enfilons chaque pierre naturelle, une à une, sur un fil
-              élastique transparent qui s&apos;efface pour ne laisser parler
-              que la matière.
+              Chez Parella Atelier, nous croyons qu&apos;un bijou peut faire bien plus qu&apos;habiller un poignet.
+              Il peut accompagner une intention, rappeler une force, marquer une étape, transmettre
+              une attention ou devenir un porte-bonheur personnel.
+            </p>
+            <p className="text-base text-[var(--color-beige-dark)] mt-4 max-w-2xl mx-auto leading-relaxed">
+              Nos créations sont réalisées à la main, pierre après pierre, à partir de pierres naturelles
+              choisies pour leurs couleurs, leurs nuances et les significations qui leur sont associées.
             </p>
           </Reveal>
         </div>
       </div>
 
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 grid sm:grid-cols-3 gap-8">
-        {MILESTONES.map((m, i) => (
-          <Reveal key={m.year} delay={i * 0.1}>
-            <p className="font-display text-2xl text-[var(--color-electric)]">{m.year}</p>
-            <p className="text-sm text-[var(--color-beige-dark)] mt-2 leading-relaxed">{m.text}</p>
-          </Reveal>
-        ))}
-      </div>
-
-      <Craftsmanship />
+      <Craftsmanship showHeading={false} />
 
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 text-center border-t border-[var(--color-beige)]/20">
         <Reveal>
-          <h2 className="font-display text-2xl sm:text-3xl text-[var(--color-beige-darker)] mb-4">
-            Envie de composer le vôtre ?
-          </h2>
-          <p className="text-sm text-[var(--color-beige-dark)] mb-8">
-            Choisissez vos pierres, une à une, dans notre configurateur 3D.
+          <p className="text-sm text-[var(--color-beige-dark)] italic mb-8 text-balance">
+            Parce qu&apos;un bijou peut devenir un rappel de l&apos;énergie que vous souhaitez
+            inviter dans votre quotidien.
           </p>
-          <Link
-            href="/configurateur"
-            className="inline-flex items-center justify-center min-h-11 px-7 py-3.5 rounded-full bg-[var(--color-electric)] text-white text-sm font-semibold hover:bg-[var(--color-electric-dark)] transition-colors"
-          >
-            Composer mon bracelet
-          </Link>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link
+              href="/bracelets"
+              className="inline-flex items-center justify-center min-h-11 px-7 py-3.5 rounded-full bg-[var(--color-electric)] text-white text-sm font-semibold hover:bg-[var(--color-electric-dark)] transition-colors"
+            >
+              Découvrir la collection
+            </Link>
+            <Link
+              href="/configurateur"
+              className="inline-flex items-center justify-center min-h-11 px-7 py-3.5 rounded-full border-2 border-[var(--color-beige-darker)] text-[var(--color-beige-darker)] text-sm font-semibold hover:bg-[var(--color-beige-darker)] hover:text-white transition-colors"
+            >
+              Créer mon bijou
+            </Link>
+          </div>
         </Reveal>
       </div>
     </div>

@@ -6,37 +6,34 @@ export type Bracelet = {
   price: number;
   description: string;
   story: string;
-  /** Photos réelles du bracelet, /public/bracelets/*.jpg, dans l'ordre d'affichage. */
+  energy: string;
   images: string[];
-  /** Une ou plusieurs matières (voir src/data/stones.ts) composant le bracelet. */
   stoneIds: string[];
   beadCount: number;
   badge?: string;
-  /** Point de vigilance spécifique à la composition de ce bracelet (en plus de ceux des matières). */
-  caution?: string;
 };
 
 export const bracelets: Bracelet[] = [
   {
     id: "domino",
     name: "Domino",
-    price: 24,
+    price: 20,
     description: "Nacre noire & nacre blanche",
     story:
-      "Domino joue le contraste graphique noir et blanc avec deux teintes de nacre alternées, pour un bracelet sobre et intemporel.",
+      "Domino joue le contraste graphique noir et blanc avec deux teintes de nacre alternées, pour un bracelet sobre et intemporel, à porter seul ou en accumulation.",
+    energy: "Élégance · Équilibre · Sérénité",
     images: ["/bracelets/domino-1.jpg"],
     stoneIds: ["mother-of-pearl"],
     beadCount: 45,
-    caution:
-      "La nacre noire est très probablement teintée : à présenter comme « nacre teintée » plutôt que « nacre noire naturelle ».",
   },
   {
     id: "terracotta",
     name: "Terracotta",
-    price: 25,
+    price: 20,
     description: "Jaspe rouge & nacre blanche",
     story:
-      "Terracotta joue sur le contraste entre le rouge brique mat du jaspe et le blanc nacré, pour un bracelet de caractère aux teintes terreuses.",
+      "Terracotta associe le rouge brique ancré du jaspe aux éclats blancs de la nacre. Un bracelet de caractère pour celles qui avancent avec détermination.",
+    energy: "Ancrage · Confiance · Énergie",
     images: ["/bracelets/terracotta-1.jpg"],
     stoneIds: ["red-jasper", "mother-of-pearl"],
     beadCount: 42,
@@ -44,23 +41,23 @@ export const bracelets: Bracelet[] = [
   {
     id: "grenadine",
     name: "Grenadine",
-    price: 22,
-    description: "Chips rouge vif & nacre blanche",
+    price: 20,
+    description: "Rouge vif & nacre blanche",
     story:
-      "Grenadine mise sur un rouge éclatant et graphique posé sur fond de nacre blanche, pour une pièce fantaisie pleine de peps.",
+      "Grenadine mise sur un rouge éclatant et graphique posé sur fond de nacre blanche. Une pièce joyeuse et affirmée, pleine d'élan.",
+    energy: "Élan · Joie · Énergie",
     images: ["/bracelets/grenadine-1.jpg"],
     stoneIds: ["dyed-coral-imitation", "mother-of-pearl"],
     beadCount: 46,
-    caution:
-      "Bracelet présenté en perle décorative : les chips rouges ne sont pas du corail naturel (espèce protégée), probablement du corail de bambou teinté.",
   },
   {
     id: "eclipse",
-    name: "Eclipse",
-    price: 28,
-    description: "Onyx noir, quartz rose & perle œil protecteur",
+    name: "Éclipse",
+    price: 25,
+    description: "Onyx noir, quartz rose & œil protecteur",
     story:
-      "Eclipse marie la profondeur de l'onyx noir à la douceur du quartz rose, rythmée par une perle œil protecteur en verre — un bracelet à la fois doux et affirmé.",
+      "Éclipse marie la profondeur de l'onyx noir à la douceur du quartz rose, rythmée par une perle œil protecteur. Un bracelet à porter comme un talisman discret.",
+    energy: "Protection · Confiance · Équilibre",
     images: ["/bracelets/eclipse-1.jpg"],
     stoneIds: ["black-onyx", "rose-quartz", "evil-eye-bead"],
     beadCount: 38,
@@ -69,23 +66,23 @@ export const bracelets: Bracelet[] = [
   {
     id: "mirage",
     name: "Mirage",
-    price: 26,
+    price: 20,
     description: "Labradorite aux tons gris et dorés",
     story:
-      "Mirage révèle toute la palette naturelle de la labradorite, du gris orageux aux reflets dorés, pour un bracelet changeant selon la lumière.",
+      "Mirage révèle toute la palette naturelle de la labradorite, du gris orageux aux reflets dorés changeants. Un bracelet pour celles qui avancent avec intuition.",
+    energy: "Intuition · Clarté · Harmonie",
     images: ["/bracelets/mirage-1.jpg"],
     stoneIds: ["labradorite"],
     beadCount: 40,
-    caution:
-      "Certaines chips dorées de ce bracelet pourraient être une autre matière mêlée à la labradorite : composition à reconfirmer avant publication finale.",
   },
   {
     id: "ambre",
     name: "Ambre",
-    price: 25,
+    price: 20,
     description: "Cornaline & nacre blanche",
     story:
-      "Ambre associe les tons orangés chauds de la cornaline aux éclats blancs de la nacre, pour un bracelet lumineux porté seul ou en accumulation.",
+      "Ambre associe les tons orangés chauds de la cornaline aux éclats blancs de la nacre. Un bracelet lumineux pour retrouver de l'élan et de la confiance.",
+    energy: "Élan · Confiance · Énergie",
     images: ["/bracelets/ambre-1.jpg"],
     stoneIds: ["carnelian", "mother-of-pearl"],
     beadCount: 44,
@@ -94,10 +91,11 @@ export const bracelets: Bracelet[] = [
   {
     id: "aurore",
     name: "Aurore",
-    price: 27,
+    price: 20,
     description: "Fluorite multicolore",
     story:
-      "Aurore capture les dégradés naturels de la fluorite, entre violet profond, vert d'eau et touches dorées, pour un bracelet doux et lumineux.",
+      "Aurore capture les dégradés naturels de la fluorite, entre violet profond, vert d'eau et touches dorées. Un bracelet doux et lumineux pour inviter la sérénité.",
+    energy: "Sérénité · Équilibre · Clarté",
     images: ["/bracelets/aurore-1.jpg"],
     stoneIds: ["fluorite"],
     beadCount: 41,
@@ -106,9 +104,10 @@ export const bracelets: Bracelet[] = [
     id: "confetti",
     name: "Confetti",
     price: 20,
-    description: "Perles décoratives multicolores",
+    description: "Pierres translucides multicolores",
     story:
-      "Confetti assemble des perles décoratives translucides aux couleurs acidulées, pour un bracelet fantaisie et joyeux, à porter sans modération.",
+      "Confetti assemble des pierres translucides aux couleurs acidulées pour une création fantaisie et joyeuse, à porter sans modération.",
+    energy: "Joie · Légèreté · Élan",
     images: ["/bracelets/confetti-1.jpg"],
     stoneIds: ["multicolor-chips"],
     beadCount: 48,
@@ -116,10 +115,11 @@ export const bracelets: Bracelet[] = [
   {
     id: "bouquet",
     name: "Bouquet",
-    price: 29,
-    description: "Mélange pastel : quartz rose, aventurine, améthyste, cornaline & nacre",
+    price: 20,
+    description: "Mélange pastel de pierres naturelles",
     story:
-      "Bouquet rassemble en un seul bracelet plusieurs matières aux teintes pastel — quartz rose, aventurine verte, améthyste, cornaline et nacre — pour une pièce délicate et richement colorée.",
+      "Bouquet rassemble en une seule création quartz rose, aventurine, améthyste, cornaline et nacre. Un bracelet généreux, doux et richement coloré pour inviter l'harmonie.",
+    energy: "Harmonie · Douceur · Amour",
     images: ["/bracelets/bouquet-1.jpg", "/bracelets/bouquet-2.jpg"],
     stoneIds: ["rose-quartz", "green-aventurine", "amethyst", "carnelian", "clear-quartz", "mother-of-pearl"],
     beadCount: 47,
@@ -128,10 +128,11 @@ export const bracelets: Bracelet[] = [
   {
     id: "mousse",
     name: "Mousse",
-    price: 25,
+    price: 20,
     description: "Aventurine verte",
     story:
-      "Mousse enfile l'aventurine verte dans toute la douceur de ses reflets scintillants, pour un bracelet apaisant aux tons naturels.",
+      "Mousse enfile l'aventurine verte dans toute la douceur de ses reflets scintillants. Un bracelet apaisant aux tons naturels pour inviter le renouveau.",
+    energy: "Renouveau · Harmonie · Ancrage",
     images: ["/bracelets/mousse-1.jpg", "/bracelets/mousse-2.jpg"],
     stoneIds: ["green-aventurine"],
     beadCount: 43,
@@ -139,10 +140,11 @@ export const bracelets: Bracelet[] = [
   {
     id: "miel",
     name: "Miel",
-    price: 25,
-    description: "Citrine / quartz jaune",
+    price: 20,
+    description: "Citrine / quartz doré",
     story:
-      "Miel capture la lumière dorée de la citrine, pierre solaire associée à la joie et à la confiance depuis l'Antiquité.",
+      "Miel capture la lumière dorée de la citrine, pierre solaire associée à la joie et à la confiance. Un bracelet rayonnant pour retrouver de l'élan.",
+    energy: "Énergie · Joie · Élan",
     images: ["/bracelets/miel-1.jpg", "/bracelets/miel-2.jpg"],
     stoneIds: ["citrine"],
     beadCount: 44,
@@ -150,10 +152,11 @@ export const bracelets: Bracelet[] = [
   {
     id: "crepuscule",
     name: "Crépuscule",
-    price: 25,
+    price: 20,
     description: "Améthyste",
     story:
-      "Crépuscule réunit de larges chips d'améthyste aux nuances violettes profondes, pour un bracelet à la présence affirmée.",
+      "Crépuscule réunit de larges chips d'améthyste aux nuances violettes profondes. Un bracelet à la présence affirmée pour les moments où l'on cherche la sérénité.",
+    energy: "Sérénité · Intuition · Équilibre",
     images: ["/bracelets/crepuscule-1.jpg", "/bracelets/crepuscule-2.jpg"],
     stoneIds: ["amethyst"],
     beadCount: 26,
@@ -161,10 +164,11 @@ export const bracelets: Bracelet[] = [
   {
     id: "glacier",
     name: "Glacier",
-    price: 26,
+    price: 20,
     description: "Quartz clair / cristal de roche",
     story:
-      "Glacier enfile le cristal de roche dans toute sa transparence, pierre de clarté et de pureté qui amplifie la lumière naturelle.",
+      "Glacier enfile le cristal de roche dans toute sa transparence. Pierre de clarté et de pureté, elle amplifie la lumière et les intentions que l'on y place.",
+    energy: "Clarté · Pureté · Énergie",
     images: [
       "/bracelets/glacier-1.jpg",
       "/bracelets/glacier-2.jpg",

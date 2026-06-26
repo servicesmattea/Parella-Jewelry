@@ -1,22 +1,5 @@
 import Link from "next/link";
 
-const COLUMNS = [
-  {
-    title: "Boutique",
-    links: [
-      { label: "Bracelets prêts à porter", href: "/bracelets" },
-      { label: "Créer mon bracelet", href: "/configurateur" },
-    ],
-  },
-  {
-    title: "À propos",
-    links: [
-      { label: "Notre histoire", href: "/notre-maison" },
-      { label: "Pierres & significations", href: "/pierres" },
-    ],
-  },
-];
-
 export default function Footer() {
   return (
     <footer className="bg-[var(--color-ink)] text-white/70 mt-auto">
@@ -26,29 +9,32 @@ export default function Footer() {
             PARELLA <span className="text-[var(--color-gold)]">ATELIER</span>
           </p>
           <p className="text-sm mt-4 max-w-xs leading-relaxed">
-            Bracelets en pierres naturelles, prêts à porter ou créés sur
-            mesure. Composez votre bijou et sa signification.
+            Des créations artisanales en pierres naturelles, pensées pour
+            accompagner vos intentions, révéler votre énergie et devenir vos
+            porte-bonheur du quotidien.
           </p>
         </div>
 
-        {COLUMNS.map((col) => (
-          <div key={col.title}>
-            <h3 className="text-white text-sm font-semibold mb-4">{col.title}</h3>
-            <ul className="space-y-2.5 text-sm">
-              {col.links.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-white transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <div>
+          <h3 className="text-white text-sm font-semibold mb-4">Boutique</h3>
+          <ul className="space-y-2.5 text-sm">
+            <li><Link href="/bracelets" className="hover:text-white transition-colors">Bracelets</Link></li>
+            <li><Link href="/configurateur" className="hover:text-white transition-colors">Créer mon bijou</Link></li>
+            <li><Link href="/panier" className="hover:text-white transition-colors">Panier</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="text-white text-sm font-semibold mb-4">Découvrir</h3>
+          <ul className="space-y-2.5 text-sm">
+            <li><Link href="/pierres" className="hover:text-white transition-colors">Les pierres</Link></li>
+            <li><Link href="/notre-maison" className="hover:text-white transition-colors">L&apos;univers Parella</Link></li>
+          </ul>
+        </div>
       </div>
 
       <div className="border-t border-white/10 py-6">
-        <p className="text-center text-xs text-white/50">
+        <p className="text-center text-xs text-white/40">
           © {new Date().getFullYear()} Parella Atelier. Tous droits réservés.
         </p>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Heart, ShoppingBag } from "lucide-react";
+import { Check, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -19,7 +19,6 @@ function useAddedFeedback() {
 }
 
 export default function BraceletCard({ bracelet }: { bracelet: Bracelet }) {
-  const [liked, setLiked] = useState(false);
   const [added, trigger] = useAddedFeedback();
   const cart = useCart();
 
@@ -33,57 +32,55 @@ export default function BraceletCard({ bracelet }: { bracelet: Bracelet }) {
   return (
     <div className="group">
       <Link href={`/bracelets/${bracelet.id}`} className="block">
-        <TiltCard max={4} className="relative aspect-square rounded-2xl bg-[var(--color-cream)] overflow-hidden flex items-center justify-center shadow-soft">
+        <TiltCard max={4} className="relative aspect-square rounded-2xl bg-[var(--color-cream)] overflow-hidden shadow-soft">
           {bracelet.badge && (
             <span className="absolute top-3 left-3 z-10 bg-[var(--color-beige-darker)] text-white text-[11px] uppercase tracking-wide px-2.5 py-1 rounded-full">
               {bracelet.badge}
             </span>
           )}
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setLiked((v) => !v);
-            }}
-            aria-label="Ajouter aux favoris"
-            className="absolute top-3 right-3 z-10 w-11 h-11 rounded-full bg-white/90 flex items-center justify-center text-[var(--color-beige-darker)] hover:text-[var(--color-electric)] transition-colors"
-          >
-            <Heart size={16} fill={liked ? "currentColor" : "none"} className={liked ? "text-[var(--color-electric)]" : ""} />
-          </button>
-
           <Image
             src={bracelet.images[0]}
             alt={bracelet.name}
             fill
             sizes="(min-width: 1024px) 33vw, 50vw"
-            className="object-cover group-hover:scale-105 transition-transform"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
           />
         </TiltCard>
       </Link>
 
-      <div className="mt-4 flex items-start justify-between gap-3">
+      <div className="mt-4">
         <Link href={`/bracelets/${bracelet.id}`} className="block">
-          <h3 className="font-display text-lg text-[var(--color-beige-darker)] hover:text-[var(--color-electric)] transition-colors">
+          <h3 className="font-display text-lg text-[var(--color-beige-darker)]">
             {bracelet.name}
           </h3>
           <p className="text-sm text-[var(--color-beige-dark)] mt-0.5">{bracelet.description}</p>
-          <p className="text-xs text-[var(--color-beige-dark)]/80 mt-0.5">{bracelet.beadCount} perles</p>
+          <p className="text-xs text-[var(--color-electric)] mt-1.5 font-medium">{bracelet.energy}</p>
         </Link>
-        <button
-          onClick={handleAddToCart}
-          aria-label={`Ajouter ${bracelet.name} au panier`}
-          className="mt-1 w-11 h-11 shrink-0 rounded-full bg-[var(--color-beige-darker)] text-white flex items-center justify-center hover:bg-[var(--color-electric)] transition-colors"
-        >
-          {added ? <Check size={16} /> : <ShoppingBag size={16} />}
-        </button>
+
+        <div className="mt-3 flex items-center justify-between gap-3">
+          <p className="font-semibold text-[var(--color-beige-darker)]">{bracelet.price.toFixed(2)} €</p>
+          <div className="flex items-center gap-2">
+            <Link
+              href={`/bracelets/${bracelet.id}`}
+              className="text-xs font-semibold text-[var(--color-electric)] hover:text-[var(--color-electric-dark)] transition-colors"
+            >
+              Découvrir →
+            </Link>
+            <button
+              onClick={handleAddToCart}
+              aria-label={`Ajouter ${bracelet.name} au panier`}
+              className="w-9 h-9 shrink-0 rounded-full bg-[var(--color-beige-darker)] text-white flex items-center justify-center hover:bg-[var(--color-electric)] transition-colors"
+            >
+              {added ? <Check size={14} /> : <ShoppingBag size={14} />}
+            </button>
+          </div>
+        </div>
       </div>
-      <p className="mt-2 font-semibold text-[var(--color-electric)]">{bracelet.price.toFixed(2)} €</p>
     </div>
   );
 }
 
 export function FeaturedBracelet({ bracelet }: { bracelet: Bracelet }) {
-  const [liked, setLiked] = useState(false);
   const [added, trigger] = useAddedFeedback();
   const cart = useCart();
 
@@ -113,24 +110,14 @@ export function FeaturedBracelet({ bracelet }: { bracelet: Bracelet }) {
               {bracelet.badge}
             </span>
           )}
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setLiked((v) => !v);
-            }}
-            aria-label="Ajouter aux favoris"
-            className="w-11 h-11 -mt-2 -mr-2 rounded-full bg-white/10 flex items-center justify-center text-white hover:text-[var(--color-electric-light)] transition-colors ml-auto"
-          >
-            <Heart size={16} fill={liked ? "currentColor" : "none"} />
-          </button>
         </div>
 
         <div className="relative flex-1 my-6" />
 
         <div className="relative">
+          <p className="text-white/60 text-xs uppercase tracking-widest mb-1">{bracelet.energy}</p>
           <h3 className="font-display text-3xl sm:text-4xl text-white">{bracelet.name}</h3>
-          <p className="text-white/70 mt-2 max-w-sm">{bracelet.description}</p>
+          <p className="text-white/70 mt-1">{bracelet.description}</p>
           <div className="mt-6 flex items-center justify-between">
             <p className="font-display text-2xl text-white">{bracelet.price.toFixed(2)} €</p>
             <button

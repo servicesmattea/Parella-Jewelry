@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { categoryLabels, stones, type StoneCategory } from "@/data/stones";
-import { Gem, Sparkles, ShieldAlert } from "lucide-react";
+import { Gem } from "lucide-react";
 import Reveal from "./Reveal";
 
 const categories: StoneCategory[] = [
@@ -34,16 +34,15 @@ export default function StoneGuide({
       {showHeading && (
         <Reveal className="text-center max-w-2xl mx-auto mb-12">
           <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
-            Le langage des pierres
+            Les pierres Parella
           </span>
           <h2 className="font-display text-3xl sm:text-4xl text-[var(--color-beige-darker)] mt-3">
             Chaque pierre porte une signification
           </h2>
           <p className="text-sm text-[var(--color-beige-dark)] mt-4">
-            Faites défiler la liste pour découvrir l&apos;histoire et la
-            signification de chaque matière utilisée dans nos créations :
-            pierres naturelles, matières naturelles comme la nacre, et perles
-            décoratives.
+            Explorez les pierres qui vous attirent, découvrez ce qu&apos;elles
+            évoquent et laissez-vous guider par celles qui résonnent avec
+            votre énergie du moment.
           </p>
         </Reveal>
       )}
@@ -154,45 +153,23 @@ export default function StoneGuide({
             <h3 className="font-display text-2xl sm:text-3xl text-[var(--color-beige-darker)] mb-2">
               {active.name}
             </h3>
-            <p className="text-[11px] uppercase tracking-wide text-[var(--color-beige-dark)]/70 mb-4">
-              {categoryLabels[active.category]} · confiance d&apos;identification :{" "}
-              {active.confidence}
+            <p className="text-[11px] uppercase tracking-wide text-[var(--color-beige-dark)]/60 mb-4">
+              {categoryLabels[active.category]}
             </p>
             <p className="text-[var(--color-beige-dark)] leading-relaxed mb-6">
               {active.meaning}
             </p>
 
-            <h4 className="text-sm font-semibold text-[var(--color-beige-darker)] mb-3 flex items-center gap-2">
-              <Sparkles size={15} className="text-[var(--color-electric)]" />
-              Bienfaits
-            </h4>
-            <ul className="space-y-2 mb-6">
+            <div className="flex flex-wrap gap-2">
               {active.benefits.map((b) => (
-                <li
+                <span
                   key={b}
-                  className="flex items-start gap-2.5 text-sm text-[var(--color-beige-dark)]"
+                  className="inline-flex items-center text-xs font-medium text-[var(--color-electric)] bg-[var(--color-electric)]/10 px-3 py-1.5 rounded-full"
                 >
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--color-electric)] shrink-0" />
                   {b}
-                </li>
-              ))}
-            </ul>
-
-            {active.caution && (
-              <div className="flex items-start gap-2.5 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-xl p-3.5 mb-6">
-                <ShieldAlert size={16} className="shrink-0 mt-0.5" />
-                <span>{active.caution}</span>
-              </div>
-            )}
-
-            {active.zodiac && (
-              <p className="text-xs text-[var(--color-beige-dark)]/80">
-                Affinité astrologique :{" "}
-                <span className="font-medium text-[var(--color-beige-darker)]">
-                  {active.zodiac}
                 </span>
-              </p>
-            )}
+              ))}
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
