@@ -22,7 +22,7 @@ export const bracelets: Bracelet[] = [
     story:
       "Domino joue le contraste graphique noir et blanc avec deux teintes de nacre alternées, pour un bracelet sobre et intemporel, à porter seul ou en accumulation.",
     energy: "Élégance · Équilibre · Sérénité",
-    images: ["/bracelets/domino-1.jpg", "/bracelets/domino-2.jpg", "/bracelets/domino-3.jpg"],
+    images: ["/bracelets/domino-1.jpg"],
     stoneIds: ["mother-of-pearl"],
     beadCount: 45,
   },
@@ -71,7 +71,7 @@ export const bracelets: Bracelet[] = [
     story:
       "Mirage révèle toute la palette naturelle de la labradorite, du gris orageux aux reflets dorés changeants. Un bracelet pour celles qui avancent avec intuition.",
     energy: "Protection · Intuition · Clarté",
-    images: ["/bracelets/mirage-1.jpg"],
+    images: ["/bracelets/mirage-1.jpg", "/bracelets/mirage-2.jpg", "/bracelets/mirage-3.jpg"],
     stoneIds: ["labradorite"],
     beadCount: 40,
   },
