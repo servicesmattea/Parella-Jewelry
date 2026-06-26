@@ -1,13 +1,14 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 export type SlotValue = { hex: string; name: string } | null;
 
 const BAND_RADIUS = 1.5;
+const SCENE_UNITS_PER_CM = 0.26;
 
 function mulberry32(seed: number) {
   let a = seed;
@@ -25,25 +26,22 @@ function createStoneGeometry(seed: number, radius: number) {
   const pos = geo.attributes.position;
   const rand = mulberry32(seed);
   for (let i = 0; i < pos.count; i++) {
-    const jitter = 0.8 + rand() * 0.4;
+    const jitter = 0.82 + rand() * 0.36;
     pos.setXYZ(i, pos.getX(i) * jitter, pos.getY(i) * jitter, pos.getZ(i) * jitter);
   }
   geo.computeVertexNormals();
   return geo;
 }
 
-function TransparentCord() {
+// Thin golden silk thread instead of transparent plastic
+function GoldenThread() {
   return (
     <mesh rotation={[Math.PI / 2, 0, 0]}>
-      <torusGeometry args={[BAND_RADIUS, 0.022, 16, 80]} />
+      <torusGeometry args={[BAND_RADIUS, 0.018, 16, 100]} />
       <meshPhysicalMaterial
-        color="#ffffff"
-        transparent
-        opacity={0.4}
-        roughness={0.15}
-        transmission={0.85}
-        thickness={0.05}
-        ior={1.3}
+        color="#c9a96e"
+        roughness={0.22}
+        metalness={0.75}
       />
     </mesh>
   );
@@ -102,12 +100,13 @@ function StoneBead({
     >
       <meshPhysicalMaterial
         color={hex}
-        roughness={0.45}
-        metalness={0}
-        clearcoat={0.4}
-        clearcoatRoughness={0.3}
+        roughness={0.32}
+        metalness={0.04}
+        clearcoat={0.65}
+        clearcoatRoughness={0.18}
+        reflectivity={0.85}
         emissive={selected ? hex : "#000000"}
-        emissiveIntensity={selected ? 0.4 : 0}
+        emissiveIntensity={selected ? 0.28 : 0}
       />
     </mesh>
   );
@@ -130,8 +129,8 @@ function EmptySlotMarker({
         onClick();
       }}
     >
-      <torusGeometry args={[radius, 0.012, 12, 24]} />
-      <meshStandardMaterial color="#B9A17E" transparent opacity={0.45} />
+      <torusGeometry args={[radius * 0.85, 0.008, 10, 20]} />
+      <meshStandardMaterial color="#c9a96e" transparent opacity={0.5} />
     </mesh>
   );
 }
@@ -139,14 +138,26 @@ function EmptySlotMarker({
 function Rig({ children }: { children: React.ReactNode }) {
   const group = useRef<THREE.Group>(null);
   useFrame((_, delta) => {
-    if (group.current) group.current.rotation.y += delta * 0.1;
+    if (group.current) group.current.rotation.y += delta * 0.08;
   });
   return <group ref={group}>{children}</group>;
 }
 
-// Scene units per cm of real bead diameter, calibrated so the original
-// fixed 0.1 radius corresponds to a ~0.77cm bead.
-const SCENE_UNITS_PER_CM = 0.26;
+// Keeps camera pointing at center with smooth distance update
+function CameraController({ bandRadius }: { bandRadius: number }) {
+  const { camera } = useThree();
+  const targetDist = bandRadius * 3.6;
+
+  useEffect(() => {
+    const cam = camera as THREE.PerspectiveCamera;
+    const cur = new THREE.Vector3(0, bandRadius * 1.2, targetDist);
+    cam.position.copy(cur);
+    cam.lookAt(0, 0, 0);
+    cam.updateProjectionMatrix();
+  }, [bandRadius, camera, targetDist]);
+
+  return null;
+}
 
 export default function BraceletScene({
   slots,
@@ -159,7 +170,12 @@ export default function BraceletScene({
   beadDiameterCm?: number;
   onSelectSlot: (i: number) => void;
 }) {
-  const beadRadius = (beadDiameterCm / 2) * SCENE_UNITS_PER_CM;
+  // Cap bead radius so beads never overlap regardless of count
+  const beadRadius = useMemo(() => {
+    const fromReal = (beadDiameterCm / 2) * SCENE_UNITS_PER_CM;
+    const maxFit = (BAND_RADIUS * 2 * Math.PI) / (slots.length * 2.3);
+    return Math.min(fromReal, maxFit);
+  }, [beadDiameterCm, slots.length]);
 
   const positions = useMemo<[number, number, number][]>(() => {
     const n = slots.length;
@@ -175,15 +191,23 @@ export default function BraceletScene({
 
   return (
     <Canvas
-      camera={{ position: [0, 1.8, 3.6], fov: 36 }}
+      camera={{ position: [0, 1.8, 5.4], fov: 36 }}
       dpr={[1, 1.5]}
       performance={{ min: 0.5 }}
     >
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[3, 5, 2]} intensity={1.4} />
-      <directionalLight position={[-3, 2, -2]} intensity={0.5} />
+      {/* Warm dark background — jewellery display case feel */}
+      <color attach="background" args={["#1a120c"]} />
+
+      {/* Warm golden lighting */}
+      <ambientLight intensity={0.45} color="#fff4e6" />
+      <directionalLight position={[4, 6, 3]} intensity={1.9} color="#fff4e6" castShadow />
+      <directionalLight position={[-3, 2, -2]} intensity={0.45} color="#ffe4c4" />
+      <pointLight position={[0, 4, 0]} intensity={1.1} color="#c9a96e" distance={12} decay={2} />
+
+      <CameraController bandRadius={BAND_RADIUS} />
+
       <Rig>
-        <TransparentCord />
+        <GoldenThread />
         {slots.map((s, i) =>
           s ? (
             <StoneBead
@@ -205,10 +229,11 @@ export default function BraceletScene({
           )
         )}
       </Rig>
+
       <OrbitControls
         enablePan={false}
-        minDistance={3.0}
-        maxDistance={5.4}
+        minDistance={BAND_RADIUS * 2.2}
+        maxDistance={BAND_RADIUS * 5.5}
         maxPolarAngle={Math.PI / 2.1}
         minPolarAngle={Math.PI / 6}
       />

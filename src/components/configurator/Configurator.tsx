@@ -163,36 +163,37 @@ export default function Configurator({ editId }: { editId?: string } = {}) {
   return (
     <section
       id="configurateur"
-      className="bg-[var(--color-ink)] py-20 sm:py-28"
+      className="bg-[var(--color-sand)] py-20 sm:py-28"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal className="text-center max-w-2xl mx-auto mb-14">
-          <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric-light)]">
-            Configurateur
+          <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
+            Atelier de création
           </span>
-          <h2 className="font-display text-3xl sm:text-4xl text-white mt-3">
+          <h2 className="font-display text-3xl sm:text-4xl text-[var(--color-beige-darker)] mt-3">
             {editingId ? "Modifiez votre création" : "Créez le bijou qui vous ressemble"}
           </h2>
-          <p className="text-sm text-white/70 mt-4">
-            Faites pivoter le bijou, cliquez sur une perle puis choisissez
-            sa pierre dans la palette. Votre création s&apos;affiche en temps
-            réel.
+          <p className="text-sm text-[var(--color-beige-dark)] mt-4">
+            Cliquez sur une perle puis choisissez sa pierre dans la palette.
+            Votre création s&apos;affiche en temps réel.
           </p>
         </Reveal>
 
         <Reveal delay={0.1} className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-14 items-start">
-          <div className="relative rounded-3xl bg-gradient-to-br from-white/10 to-white/0 border border-white/10 aspect-square sm:aspect-[4/3.4] overflow-hidden">
+          {/* 3D canvas — dark jewellery display case */}
+          <div className="relative rounded-3xl overflow-hidden aspect-square sm:aspect-[4/3.4] shadow-lifted"
+               style={{ background: "#1a120c" }}>
             <BraceletScene
               slots={slots}
               activeSlot={activeSlot}
               beadDiameterCm={beadDiameterCm}
               onSelectSlot={setActiveSlot}
             />
-            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white/60 text-xs pointer-events-none">
+            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white/50 text-xs pointer-events-none">
               <span>Glissez pour faire pivoter</span>
               <button
                 onClick={reset}
-                className="pointer-events-auto inline-flex items-center gap-1.5 text-white/80 hover:text-white transition-colors"
+                className="pointer-events-auto inline-flex items-center gap-1.5 text-white/70 hover:text-white transition-colors"
               >
                 <RotateCcw size={13} /> Réinitialiser
               </button>
