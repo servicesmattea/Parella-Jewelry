@@ -37,9 +37,8 @@ export default function BraceletsPage() {
               Tous nos bracelets
             </h1>
             <p className="text-sm sm:text-base text-[var(--color-beige-dark)] mt-4 max-w-xl">
-              {bracelets.length} modèles enfilés à la main, sur un fil
-              élastique transparent — pierres naturelles, matières naturelles
-              ou perles décoratives selon le modèle.
+              {bracelets.length} créations réalisées à la main, en pierres
+              naturelles sélectionnées.
             </p>
           </Reveal>
         </div>

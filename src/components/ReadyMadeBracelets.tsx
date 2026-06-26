@@ -12,17 +12,16 @@ export default function ReadyMadeBracelets() {
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
           <div>
             <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric)]">
-              Collection signature
+              Collection Parella
             </span>
             <h2 className="font-display text-3xl sm:text-4xl text-[var(--color-beige-darker)] mt-3">
-              Bracelets prêts à porter
+              Les créations Parella
             </h2>
           </div>
           <p className="text-sm text-[var(--color-beige-dark)] max-w-sm">
-            Chaque pièce enfile à la main des perles sélectionnées — pierres
-            naturelles, matières naturelles ou décoratives selon le modèle —
-            sur un fil élastique transparent, résistant et discret au
-            poignet.
+            Des bracelets imaginés et réalisés à la main, composés autour de
+            pierres, de couleurs et d'harmonies qui racontent chacune une
+            histoire.
           </p>
         </div>
       </Reveal>

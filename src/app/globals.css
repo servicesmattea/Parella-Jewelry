@@ -1,19 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #1c1a17;
+  --background: #faf7f2;
+  --foreground: #2d1f14;
 
-  /* Parella Jewelry palette */
-  --color-electric: #1349ff;
-  --color-electric-dark: #0d35c7;
-  --color-electric-light: #5b7bff;
+  /* Parella Jewelry palette — DA nude & naturelle */
+  --color-electric: #8b7355;         /* taupe / brun rosé — accent principal */
+  --color-electric-dark: #6b5640;    /* taupe foncé */
+  --color-electric-light: #c4a882;   /* nude / doré mat clair */
+  --color-rose: #d4b5aa;             /* rose poudré très léger */
+  --color-gold: #c9a96e;             /* doré mat discret */
   --color-beige: #b9a17e;
   --color-beige-dark: #6f5d44;
   --color-beige-darker: #3f3527;
-  --color-cream: #faf7f2;
-  --color-ink: #14152b;
-  --color-ink-light: #262a52;
+  --color-cream: #faf7f2;            /* ivoire / blanc crème */
+  --color-sand: #f0e8dc;             /* beige sable */
+  --color-ink: #2a1f18;              /* brun profond */
+  --color-ink-light: #4a3428;        /* brun moyen */
 
   /* Motion language */
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
@@ -21,7 +24,7 @@
 
   /* Elevation */
   --shadow-soft: 0 1px 2px rgba(63, 53, 39, 0.04), 0 12px 32px -12px rgba(63, 53, 39, 0.14);
-  --shadow-lifted: 0 2px 4px rgba(63, 53, 39, 0.06), 0 24px 48px -16px rgba(19, 73, 255, 0.18);
+  --shadow-lifted: 0 2px 4px rgba(63, 53, 39, 0.06), 0 24px 48px -16px rgba(63, 53, 39, 0.14);
 }
 
 @theme inline {
@@ -33,10 +36,13 @@
   --color-electric: var(--color-electric);
   --color-electric-dark: var(--color-electric-dark);
   --color-electric-light: var(--color-electric-light);
+  --color-rose: var(--color-rose);
+  --color-gold: var(--color-gold);
   --color-beige: var(--color-beige);
   --color-beige-dark: var(--color-beige-dark);
   --color-beige-darker: var(--color-beige-darker);
   --color-cream: var(--color-cream);
+  --color-sand: var(--color-sand);
   --color-ink: var(--color-ink);
   --color-ink-light: var(--color-ink-light);
 }

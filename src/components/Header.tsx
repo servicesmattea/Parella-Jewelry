@@ -9,9 +9,9 @@ import SearchOverlay from "./SearchOverlay";
 
 const NAV_LINKS = [
   { label: "Bracelets", href: "/bracelets" },
-  { label: "Créer le mien", href: "/configurateur" },
-  { label: "Pierres & significations", href: "/pierres" },
-  { label: "Notre maison", href: "/notre-maison" },
+  { label: "Imaginer mon bijou", href: "/configurateur" },
+  { label: "Les pierres et signification", href: "/pierres" },
+  { label: "L'univers Parella", href: "/notre-maison" },
 ];
 
 export default function Header() {
@@ -30,8 +30,8 @@ export default function Header() {
 
   return (
     <div className="sticky top-0 z-50">
-      <div className="bg-[var(--color-electric)] text-white text-center text-xs sm:text-sm py-2 px-4 tracking-wide">
-        Livraison offerte dès 60€ · Gravure gratuite sur tous les bracelets
+      <div className="bg-[var(--color-beige-darker)] text-white/90 text-center text-xs sm:text-sm py-2 px-4 tracking-wide">
+        Livraison offerte dès 60 € · Créations réalisées à la main · Pierres naturelles sélectionnées
       </div>
       <header
         className={`transition-all border-b ${
@@ -53,7 +53,7 @@ export default function Header() {
             href="/"
             className="font-display text-2xl sm:text-3xl tracking-[0.08em] text-[var(--color-beige-darker)]"
           >
-            PARELLA <span className="text-[var(--color-electric)]">JEWELRY</span>
+            PARELLA <span className="text-[var(--color-gold)]">JEWELRY</span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-9">

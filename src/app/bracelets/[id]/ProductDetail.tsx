@@ -101,7 +101,7 @@ export default function ProductDetail({
 
           <div className="flex items-center gap-2.5 mt-6 text-xs text-[var(--color-beige-dark)] bg-[var(--color-cream)] rounded-xl px-4 py-3">
             <Sparkles size={14} className="text-[var(--color-electric)] shrink-0" />
-            {bracelet.beadCount} {categories.join(" & ")} · fil élastique transparent
+            {bracelet.beadCount} perles · {categories.join(" & ")}
           </div>
 
           <div className="mt-8 flex items-center gap-4">
