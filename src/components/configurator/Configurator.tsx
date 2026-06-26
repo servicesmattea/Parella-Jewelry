@@ -180,20 +180,20 @@ export default function Configurator({ editId }: { editId?: string } = {}) {
         </Reveal>
 
         <Reveal delay={0.1} className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-14 items-start">
-          {/* 3D canvas — dark jewellery display case */}
-          <div className="relative rounded-3xl overflow-hidden aspect-square sm:aspect-[4/3.4] shadow-lifted"
-               style={{ background: "#1a120c" }}>
+          {/* 3D canvas — ivory background */}
+          <div className="relative rounded-3xl overflow-hidden aspect-square sm:aspect-[4/3.4] shadow-soft border border-[var(--color-beige)]/30"
+               style={{ background: "#faf7f2" }}>
             <BraceletScene
               slots={slots}
               activeSlot={activeSlot}
               beadDiameterCm={beadDiameterCm}
               onSelectSlot={setActiveSlot}
             />
-            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white/50 text-xs pointer-events-none">
+            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[var(--color-beige-dark)] text-xs pointer-events-none">
               <span>Glissez pour faire pivoter</span>
               <button
                 onClick={reset}
-                className="pointer-events-auto inline-flex items-center gap-1.5 text-white/70 hover:text-white transition-colors"
+                className="pointer-events-auto inline-flex items-center gap-1.5 text-[var(--color-beige-darker)] hover:text-[var(--color-electric)] transition-colors"
               >
                 <RotateCcw size={13} /> Réinitialiser
               </button>

@@ -195,14 +195,14 @@ export default function BraceletScene({
       dpr={[1, 1.5]}
       performance={{ min: 0.5 }}
     >
-      {/* Warm dark background — jewellery display case feel */}
-      <color attach="background" args={["#1a120c"]} />
+      {/* Ivory background */}
+      <color attach="background" args={["#faf7f2"]} />
 
-      {/* Warm golden lighting */}
-      <ambientLight intensity={0.45} color="#fff4e6" />
-      <directionalLight position={[4, 6, 3]} intensity={1.9} color="#fff4e6" castShadow />
-      <directionalLight position={[-3, 2, -2]} intensity={0.45} color="#ffe4c4" />
-      <pointLight position={[0, 4, 0]} intensity={1.1} color="#c9a96e" distance={12} decay={2} />
+      {/* Warm natural lighting */}
+      <ambientLight intensity={0.9} color="#fff8f0" />
+      <directionalLight position={[4, 6, 3]} intensity={1.4} color="#fff4e6" />
+      <directionalLight position={[-3, 2, -2]} intensity={0.4} color="#ffe4c4" />
+      <pointLight position={[0, 4, 0]} intensity={0.5} color="#c9a96e" distance={12} decay={2} />
 
       <CameraController bandRadius={BAND_RADIUS} />
 
