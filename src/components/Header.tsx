@@ -10,6 +10,7 @@ import SearchOverlay from "./SearchOverlay";
 const NAV_LINKS = [
   { label: "Bracelets", href: "/bracelets" },
   { label: "Créer mon bijou", href: "/configurateur" },
+  { label: "Mon bracelet idéal", href: "/quiz" },
   { label: "Les pierres", href: "/pierres" },
   { label: "L'univers Parella", href: "/notre-maison" },
 ];

@@ -65,6 +65,13 @@ export default function Hero() {
             </a>
           </div>
 
+          <a
+            href="/quiz"
+            className="mt-4 inline-flex items-center gap-1.5 text-sm text-[var(--color-electric)] hover:text-[var(--color-electric-dark)] transition-colors underline-offset-4 hover:underline"
+          >
+            ✦ Trouver mon bracelet idéal →
+          </a>
+
           <p className="mt-8 text-xs text-[var(--color-beige-dark)]/70 tracking-wide">
             Pierres naturelles sélectionnées · Créations artisanales · Livraison offerte dès 60 €
           </p>
