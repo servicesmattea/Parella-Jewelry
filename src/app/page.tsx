@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import ReadyMadeBracelets from "@/components/ReadyMadeBracelets";
 import EnergySection from "@/components/EnergySection";
+import Configurator from "@/components/configurator/Configurator";
 import StonesPreview from "@/components/StonesPreview";
 import Craftsmanship from "@/components/Craftsmanship";
 import Testimonials from "@/components/Testimonials";
@@ -12,6 +13,7 @@ export default function Home() {
       <Hero />
       <ReadyMadeBracelets />
       <EnergySection />
+      <Configurator />
       <StonesPreview />
       <Craftsmanship />
       <Testimonials />
