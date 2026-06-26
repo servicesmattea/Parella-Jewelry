@@ -70,7 +70,7 @@ export const bracelets: Bracelet[] = [
     description: "Labradorite aux tons gris et dorés",
     story:
       "Mirage révèle toute la palette naturelle de la labradorite, du gris orageux aux reflets dorés changeants. Un bracelet pour celles qui avancent avec intuition.",
-    energy: "Intuition · Clarté · Harmonie",
+    energy: "Protection · Intuition · Clarté",
     images: ["/bracelets/mirage-1.jpg"],
     stoneIds: ["labradorite"],
     beadCount: 40,
@@ -107,7 +107,7 @@ export const bracelets: Bracelet[] = [
     description: "Pierres translucides multicolores",
     story:
       "Confetti assemble des pierres translucides aux couleurs acidulées pour une création fantaisie et joyeuse, à porter sans modération.",
-    energy: "Joie · Légèreté · Élan",
+    energy: "Joie · Légèreté · Chance",
     images: ["/bracelets/confetti-1.jpg"],
     stoneIds: ["multicolor-chips"],
     beadCount: 48,
@@ -132,7 +132,7 @@ export const bracelets: Bracelet[] = [
     description: "Aventurine verte",
     story:
       "Mousse enfile l'aventurine verte dans toute la douceur de ses reflets scintillants. Un bracelet apaisant aux tons naturels pour inviter le renouveau.",
-    energy: "Renouveau · Harmonie · Ancrage",
+    energy: "Chance · Renouveau · Harmonie",
     images: ["/bracelets/mousse-1.jpg", "/bracelets/mousse-2.jpg"],
     stoneIds: ["green-aventurine"],
     beadCount: 43,
@@ -156,7 +156,7 @@ export const bracelets: Bracelet[] = [
     description: "Améthyste",
     story:
       "Crépuscule réunit de larges chips d'améthyste aux nuances violettes profondes. Un bracelet à la présence affirmée pour les moments où l'on cherche la sérénité.",
-    energy: "Sérénité · Intuition · Équilibre",
+    energy: "Sérénité · Amour · Équilibre",
     images: ["/bracelets/crepuscule-1.jpg", "/bracelets/crepuscule-2.jpg"],
     stoneIds: ["amethyst"],
     beadCount: 26,

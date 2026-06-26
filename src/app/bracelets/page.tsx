@@ -1,6 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { X } from "lucide-react";
 import { bracelets } from "@/data/bracelets";
 import BraceletCard from "@/components/BraceletCard";
 import Reveal from "@/components/Reveal";
@@ -13,15 +15,35 @@ const SORTS = {
 
 type SortKey = keyof typeof SORTS;
 
-export default function BraceletsPage() {
+const ENERGY_COLORS: Record<string, string> = {
+  Confiance: "#B6792A",
+  Amour: "#E7B9C4",
+  Sérénité: "#8E6BBF",
+  Protection: "#3D3D40",
+  Énergie: "#C1602E",
+  Chance: "#5E9E78",
+};
+
+function BraceletsContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const energieFilter = searchParams.get("energie");
+
   const [sort, setSort] = useState<SortKey>("signature");
 
-  const sorted = useMemo(() => {
-    const list = [...bracelets];
+  const filtered = useMemo(() => {
+    let list = [...bracelets];
+    if (energieFilter) {
+      list = list.filter((b) =>
+        b.energy.toLowerCase().includes(energieFilter.toLowerCase())
+      );
+    }
     if (sort === "price-asc") list.sort((a, b) => a.price - b.price);
     if (sort === "price-desc") list.sort((a, b) => b.price - a.price);
     return list;
-  }, [sort]);
+  }, [sort, energieFilter]);
+
+  const energyColor = energieFilter ? ENERGY_COLORS[energieFilter] : null;
 
   return (
     <div className="bg-[var(--color-cream)]">
@@ -32,21 +54,44 @@ export default function BraceletsPage() {
               Collection Parella Atelier
             </span>
             <h1 className="font-display text-4xl sm:text-5xl text-[var(--color-beige-darker)] mt-3">
-              Les bracelets Parella
+              {energieFilter
+                ? `Bracelets — ${energieFilter}`
+                : "Les bracelets Parella"}
             </h1>
             <p className="text-sm sm:text-base text-[var(--color-beige-dark)] mt-4 max-w-xl">
-              Des bracelets en pierres naturelles réalisés à la main, imaginés
-              pour être portés seuls, associés ou offerts.
+              {energieFilter
+                ? `Des créations choisies pour l'énergie de ${energieFilter.toLowerCase()} qu'elles évoquent.`
+                : "Des bracelets en pierres naturelles réalisés à la main, imaginés pour être portés seuls, associés ou offerts."}
             </p>
           </Reveal>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="flex items-center justify-between mb-10">
-          <p className="text-sm text-[var(--color-beige-dark)]">
-            {sorted.length} créations
-          </p>
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
+          <div className="flex items-center gap-3">
+            <p className="text-sm text-[var(--color-beige-dark)]">
+              {filtered.length} création{filtered.length > 1 ? "s" : ""}
+            </p>
+            {energieFilter && (
+              <button
+                onClick={() => router.push("/bracelets")}
+                className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-colors hover:opacity-80"
+                style={{
+                  color: energyColor ?? "var(--color-electric)",
+                  borderColor: energyColor ?? "var(--color-electric)",
+                  background: energyColor ? `${energyColor}18` : "transparent",
+                }}
+              >
+                <span
+                  className="w-2 h-2 rounded-full"
+                  style={{ background: energyColor ?? "var(--color-electric)" }}
+                />
+                {energieFilter}
+                <X size={12} />
+              </button>
+            )}
+          </div>
           <label className="flex items-center gap-2 text-sm text-[var(--color-beige-darker)]">
             Trier par
             <select
@@ -63,14 +108,34 @@ export default function BraceletsPage() {
           </label>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-12">
-          {sorted.map((b, i) => (
-            <Reveal key={b.id} delay={(i % 3) * 0.06}>
-              <BraceletCard bracelet={b} />
-            </Reveal>
-          ))}
-        </div>
+        {filtered.length === 0 ? (
+          <div className="text-center py-20 text-[var(--color-beige-dark)]">
+            <p className="text-lg font-display mb-4">Aucune création trouvée</p>
+            <button
+              onClick={() => router.push("/bracelets")}
+              className="text-sm underline underline-offset-4 hover:text-[var(--color-electric)]"
+            >
+              Voir toute la collection
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-12">
+            {filtered.map((b, i) => (
+              <Reveal key={b.id} delay={(i % 3) * 0.06}>
+                <BraceletCard bracelet={b} />
+              </Reveal>
+            ))}
+          </div>
+        )}
       </div>
     </div>
+  );
+}
+
+export default function BraceletsPage() {
+  return (
+    <Suspense>
+      <BraceletsContent />
+    </Suspense>
   );
 }

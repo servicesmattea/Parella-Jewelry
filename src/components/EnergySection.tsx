@@ -6,37 +6,31 @@ const ENERGIES = [
     label: "Confiance",
     sub: "Affirmez votre force intérieure",
     hex: "#B6792A",
-    href: "/bracelets",
   },
   {
     label: "Amour",
     sub: "Douceur et liens précieux",
     hex: "#E7B9C4",
-    href: "/bracelets",
   },
   {
     label: "Sérénité",
     sub: "Apaiser le mental, retrouver l'équilibre",
     hex: "#8E6BBF",
-    href: "/bracelets",
   },
   {
     label: "Protection",
     sub: "Ancrer et préserver votre énergie",
     hex: "#3D3D40",
-    href: "/bracelets",
   },
   {
     label: "Énergie",
     sub: "Retrouver l'élan et la vitalité",
     hex: "#C1602E",
-    href: "/bracelets",
   },
   {
     label: "Chance",
     sub: "Ouvrir de nouvelles opportunités",
     hex: "#5E9E78",
-    href: "/bracelets",
   },
 ];
 
@@ -60,7 +54,7 @@ export default function EnergySection() {
           {ENERGIES.map((e, i) => (
             <Reveal key={e.label} delay={i * 0.07}>
               <Link
-                href={e.href}
+                href={`/bracelets?energie=${encodeURIComponent(e.label)}`}
                 className="group flex flex-col items-center gap-4 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/80 p-6 sm:p-8 text-center hover:border-[var(--color-beige)]/60 hover:shadow-lifted transition-all duration-300"
               >
                 <span
