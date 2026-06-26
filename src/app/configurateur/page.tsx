@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Configurator from "@/components/configurator/Configurator";
 
 export const metadata: Metadata = {
-  title: "Composez votre bracelet — Parella Jewelry",
+  title: "Composez votre bracelet — Parella Atelier",
   description:
-    "Créez votre bracelet sur mesure en 3D : choisissez vos 45 pierres naturelles une à une sur un fil élastique transparent.",
+    "Imaginez votre bijou sur mesure : choisissez vos pierres naturelles et composez une pièce unique, à votre image.",
 };
 
 export default async function ConfigurateurPage({

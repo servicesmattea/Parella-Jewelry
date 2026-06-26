@@ -18,18 +18,42 @@ const BraceletScene = dynamic(() => import("./BraceletScene"), {
   ),
 });
 
-const MAX_STONES = 45;
 const MIN_STONE_CM = 0.5;
 const MAX_STONE_CM = 1;
-// Fixed physical bracelet length: the smallest stones (0.5cm) are what let
-// 45 of them fit around the wrist, so that sets the bracelet's circumference.
-const BRACELET_LENGTH_CM = MAX_STONES * MIN_STONE_CM;
-// Fewer, bigger stones can't be smaller than MAX_STONE_CM each, which sets
-// the floor on how few stones can still fill the bracelet.
-const MIN_STONES = Math.ceil(BRACELET_LENGTH_CM / MAX_STONE_CM);
-
 const STONE_PRICE = 0.5;
 const BASE_PRICE = 25;
+
+type JewelryTypeKey = "bracelet" | "collier" | "chaine-de-pied";
+
+const JEWELRY_TYPES: Record<
+  JewelryTypeKey,
+  { label: string; sizes: number[]; defaultSize: number; baseName: string }
+> = {
+  bracelet: {
+    label: "Bracelet",
+    sizes: [15, 16, 17, 18, 19, 20],
+    defaultSize: 17,
+    baseName: "Bracelet personnalisé",
+  },
+  collier: {
+    label: "Collier",
+    sizes: [40, 42, 45, 50],
+    defaultSize: 45,
+    baseName: "Collier personnalisé",
+  },
+  "chaine-de-pied": {
+    label: "Chaîne de pied",
+    sizes: [22, 23, 24, 25],
+    defaultSize: 23,
+    baseName: "Chaîne de pied personnalisée",
+  },
+};
+
+function computeBounds(sizeCm: number) {
+  const maxStones = Math.floor(sizeCm / MIN_STONE_CM);
+  const minStones = Math.ceil(sizeCm / MAX_STONE_CM);
+  return { maxStones, minStones };
+}
 
 function resizeSlots(slots: SlotValue[], count: number): SlotValue[] {
   if (count === slots.length) return slots;
@@ -38,9 +62,14 @@ function resizeSlots(slots: SlotValue[], count: number): SlotValue[] {
 }
 
 export default function Configurator({ editId }: { editId?: string } = {}) {
-  const [stoneCount, setStoneCount] = useState(MIN_STONES);
+  const [jewelryType, setJewelryType] = useState<JewelryTypeKey>("bracelet");
+  const [sizeCm, setSizeCm] = useState(JEWELRY_TYPES.bracelet.defaultSize);
+
+  const { minStones, maxStones } = useMemo(() => computeBounds(sizeCm), [sizeCm]);
+
+  const [stoneCount, setStoneCount] = useState(minStones);
   const [slots, setSlots] = useState<SlotValue[]>(
-    Array.from({ length: MIN_STONES }, () => null)
+    Array.from({ length: minStones }, () => null)
   );
   const [activeSlot, setActiveSlot] = useState(0);
   const [added, setAdded] = useState(false);
@@ -53,20 +82,41 @@ export default function Configurator({ editId }: { editId?: string } = {}) {
       (i) => i.id === editId && i.kind === "custom" && i.customConfig
     );
     if (!item?.customConfig) return;
-    setSlots(item.customConfig.slots);
-    setStoneCount(item.customConfig.slots.length);
+    const config = item.customConfig;
+    const type = (config.jewelryType ?? "bracelet") as JewelryTypeKey;
+    const size = config.sizeCm ?? JEWELRY_TYPES[type].defaultSize;
+    setJewelryType(type);
+    setSizeCm(size);
+    setSlots(config.slots);
+    setStoneCount(config.slots.length);
     setActiveSlot(0);
     setEditingId(editId);
   }, [editId, editingId, cart.items]);
 
-  const beadDiameterCm = BRACELET_LENGTH_CM / stoneCount;
+  function handleTypeChange(type: JewelryTypeKey) {
+    setJewelryType(type);
+    const newSize = JEWELRY_TYPES[type].defaultSize;
+    setSizeCm(newSize);
+    const { minStones: newMin } = computeBounds(newSize);
+    setStoneCount(newMin);
+    setSlots(Array.from({ length: newMin }, () => null));
+    setActiveSlot(0);
+  }
+
+  function handleSizeChange(size: number) {
+    setSizeCm(size);
+    const { minStones: newMin } = computeBounds(size);
+    const newCount = Math.max(newMin, Math.min(stoneCount, Math.floor(size / MIN_STONE_CM)));
+    setStoneCount(newCount);
+    setSlots((prev) => resizeSlots(prev, newCount));
+    setActiveSlot((i) => Math.min(i, newCount - 1));
+  }
+
+  const beadDiameterCm = sizeCm / stoneCount;
 
   const filledCount = slots.filter(Boolean).length;
-  const extraStones = Math.max(0, filledCount - MIN_STONES);
-  const price = useMemo(
-    () => BASE_PRICE + extraStones * STONE_PRICE,
-    [extraStones]
-  );
+  const extraStones = Math.max(0, filledCount - minStones);
+  const price = useMemo(() => BASE_PRICE + extraStones * STONE_PRICE, [extraStones]);
 
   function changeStoneCount(count: number) {
     setStoneCount(count);
@@ -90,13 +140,14 @@ export default function Configurator({ editId }: { editId?: string } = {}) {
 
   function handleAddToCart() {
     const firstStone = slots.find((s) => s !== null);
+    const typeLabel = JEWELRY_TYPES[jewelryType].baseName;
     const item = {
       id: editingId ?? `custom-${Date.now()}`,
-      name: `Bracelet personnalisé (${filledCount} pierres)`,
+      name: `${typeLabel} (${sizeCm} cm · ${filledCount} pierres)`,
       price,
       hex: firstStone?.hex ?? "#B9A17E",
       kind: "custom" as const,
-      customConfig: { slots },
+      customConfig: { slots, jewelryType, sizeCm },
     };
     if (editingId) {
       cart.update(editingId, item);
@@ -107,6 +158,8 @@ export default function Configurator({ editId }: { editId?: string } = {}) {
     setTimeout(() => setAdded(false), 1800);
   }
 
+  const typeKeys = Object.keys(JEWELRY_TYPES) as JewelryTypeKey[];
+
   return (
     <section
       id="configurateur"
@@ -115,15 +168,15 @@ export default function Configurator({ editId }: { editId?: string } = {}) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-electric-light)]">
-            Configurateur 3D
+            Configurateur
           </span>
           <h2 className="font-display text-3xl sm:text-4xl text-white mt-3">
-            {editingId ? "Modifiez votre bracelet" : "Créez le bracelet qui vous ressemble"}
+            {editingId ? "Modifiez votre création" : "Créez le bijou qui vous ressemble"}
           </h2>
           <p className="text-sm text-white/70 mt-4">
-            Faites pivoter le bracelet, cliquez sur une perle puis choisissez
+            Faites pivoter le bijou, cliquez sur une perle puis choisissez
             sa pierre dans la palette. Votre création s&apos;affiche en temps
-            réel, en 3D.
+            réel.
           </p>
         </Reveal>
 
@@ -147,7 +200,51 @@ export default function Configurator({ editId }: { editId?: string } = {}) {
           </div>
 
           <div className="bg-white rounded-3xl p-6 sm:p-8">
-            <div className="flex items-center justify-between mb-5">
+            {/* Type selection */}
+            <div className="mb-6">
+              <p className="text-sm font-semibold text-[var(--color-beige-darker)] mb-3">
+                Type de bijou
+              </p>
+              <div className="flex gap-2">
+                {typeKeys.map((key) => (
+                  <button
+                    key={key}
+                    onClick={() => handleTypeChange(key)}
+                    className={`flex-1 py-2.5 px-3 rounded-full text-xs font-semibold border-2 transition-colors ${
+                      jewelryType === key
+                        ? "border-[var(--color-electric)] bg-[var(--color-electric)] text-white"
+                        : "border-[var(--color-beige)]/40 text-[var(--color-beige-darker)] hover:border-[var(--color-electric)]"
+                    }`}
+                  >
+                    {JEWELRY_TYPES[key].label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Size selection */}
+            <div className="mb-6">
+              <p className="text-sm font-semibold text-[var(--color-beige-darker)] mb-3">
+                Taille
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {JEWELRY_TYPES[jewelryType].sizes.map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => handleSizeChange(size)}
+                    className={`min-w-[52px] py-2 px-3 rounded-full text-xs font-semibold border-2 transition-colors ${
+                      sizeCm === size
+                        ? "border-[var(--color-electric)] bg-[var(--color-electric)] text-white"
+                        : "border-[var(--color-beige)]/40 text-[var(--color-beige-darker)] hover:border-[var(--color-electric)]"
+                    }`}
+                  >
+                    {size} cm
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between mb-2">
               <h3 className="font-display text-xl text-[var(--color-beige-darker)]">
                 Vos perles ({filledCount}/{stoneCount})
               </h3>
@@ -168,15 +265,15 @@ export default function Configurator({ editId }: { editId?: string } = {}) {
               <input
                 id="stone-count"
                 type="range"
-                min={MIN_STONES}
-                max={MAX_STONES}
+                min={minStones}
+                max={maxStones}
                 value={stoneCount}
                 onChange={(e) => changeStoneCount(Number(e.target.value))}
                 className="w-full accent-[var(--color-electric)]"
               />
               <div className="flex justify-between text-[10px] text-[var(--color-beige-dark)] mt-1">
-                <span>{MIN_STONES} (pierres ~1 cm)</span>
-                <span>{MAX_STONES} (pierres ~0.5 cm)</span>
+                <span>{minStones} (pierres ~1 cm)</span>
+                <span>{maxStones} (pierres ~0.5 cm)</span>
               </div>
             </div>
 
@@ -216,12 +313,6 @@ export default function Configurator({ editId }: { editId?: string } = {}) {
                   </span>
                 </button>
               ))}
-            </div>
-
-            <div className="flex items-center gap-2.5 mb-8 text-xs text-[var(--color-beige-dark)] bg-[var(--color-cream)] rounded-xl px-4 py-3">
-              <span className="w-2 h-2 rounded-full bg-white ring-1 ring-[var(--color-beige)]/50 shrink-0" />
-              Fil élastique transparent, résistant et invisible — il met en
-              valeur uniquement vos pierres.
             </div>
 
             <div className="flex items-center justify-between border-t border-[var(--color-beige)]/30 pt-6">

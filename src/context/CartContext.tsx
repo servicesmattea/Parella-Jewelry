@@ -12,6 +12,8 @@ import {
 
 export type CustomBraceletConfig = {
   slots: ({ hex: string; name: string } | null)[];
+  jewelryType?: "bracelet" | "collier" | "chaine-de-pied";
+  sizeCm?: number;
 };
 
 export type CartItem = {

@@ -3,9 +3,9 @@ import StoneGuide from "@/components/StoneGuide";
 import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
-  title: "Le langage des pierres — Parella Jewelry",
+  title: "Le langage des pierres — Parella Atelier",
   description:
-    "Découvrez la signification de chaque pierre naturelle, matière naturelle et perle décorative utilisée dans les créations Parella Jewelry.",
+    "Découvrez la signification de chaque pierre naturelle, matière naturelle et perle décorative utilisée dans les créations Parella Atelier.",
 };
 
 export default async function PierresPage({

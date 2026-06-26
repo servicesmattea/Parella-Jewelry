@@ -16,7 +16,7 @@ export async function generateMetadata({
   const bracelet = getBraceletById(id);
   if (!bracelet) return {};
   return {
-    title: `${bracelet.name} — Parella Jewelry`,
+    title: `${bracelet.name} — Parella Atelier`,
     description: bracelet.story,
   };
 }

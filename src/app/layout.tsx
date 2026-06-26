@@ -20,9 +20,9 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Parella Jewelry — Bracelets fins & personnalisables",
+  title: "Parella Atelier — Bracelets fins & personnalisables",
   description:
-    "Parella Jewelry crée des bracelets élégants et des bracelets personnalisés en pierres naturelles. Composez le vôtre en 3D et découvrez la signification de chaque pierre.",
+    "Parella Atelier crée des bracelets élégants et des bracelets personnalisés en pierres naturelles. Composez le vôtre en 3D et découvrez la signification de chaque pierre.",
 };
 
 export default function RootLayout({

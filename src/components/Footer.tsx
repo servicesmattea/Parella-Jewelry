@@ -23,7 +23,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
         <div className="sm:col-span-2">
           <p className="font-display text-2xl text-white tracking-[0.08em]">
-            PARELLA <span className="text-[var(--color-gold)]">JEWELRY</span>
+            PARELLA <span className="text-[var(--color-gold)]">ATELIER</span>
           </p>
           <p className="text-sm mt-4 max-w-xs leading-relaxed">
             Bracelets en pierres naturelles, prêts à porter ou créés sur
@@ -49,7 +49,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10 py-6">
         <p className="text-center text-xs text-white/50">
-          © {new Date().getFullYear()} Parella Jewelry. Tous droits réservés.
+          © {new Date().getFullYear()} Parella Atelier. Tous droits réservés.
         </p>
       </div>
     </footer>

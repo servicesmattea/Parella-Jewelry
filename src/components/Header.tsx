@@ -53,7 +53,7 @@ export default function Header() {
             href="/"
             className="font-display text-2xl sm:text-3xl tracking-[0.08em] text-[var(--color-beige-darker)]"
           >
-            PARELLA <span className="text-[var(--color-gold)]">JEWELRY</span>
+            PARELLA <span className="text-[var(--color-gold)]">ATELIER</span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-9">

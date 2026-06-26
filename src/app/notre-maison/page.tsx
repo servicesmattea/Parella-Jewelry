@@ -4,9 +4,9 @@ import Craftsmanship from "@/components/Craftsmanship";
 import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
-  title: "Notre maison — Parella Jewelry",
+  title: "Notre maison — Parella Atelier",
   description:
-    "L'histoire de Parella Jewelry : un atelier français qui enfile des pierres naturelles, perle par perle, sur un fil élastique transparent.",
+    "L'histoire de Parella Atelier : un atelier français dédié à la création de bijoux en pierres naturelles, imaginés et réalisés à la main.",
 };
 
 const MILESTONES = [
@@ -29,7 +29,7 @@ export default function NotreMaisonPage() {
               <span className="italic text-[var(--color-electric)]">pas une usine.</span>
             </h1>
             <p className="text-base text-[var(--color-beige-dark)] mt-6 max-w-2xl mx-auto leading-relaxed">
-              Parella Jewelry est né d&apos;une idée simple : un bracelet ne
+              Parella Atelier est né d&apos;une idée simple : un bracelet ne
               devrait jamais cacher ses pierres derrière une chaîne épaisse.
               Nous enfilons chaque pierre naturelle, une à une, sur un fil
               élastique transparent qui s&apos;efface pour ne laisser parler
