@@ -18,16 +18,17 @@ export type Bracelet = {
 
 export const bracelets: Bracelet[] = [
   {
-    id: "ambre",
-    name: "Ambre",
-    price: 25,
-    description: "Cornaline & nacre blanche",
+    id: "domino",
+    name: "Domino",
+    price: 24,
+    description: "Nacre noire & nacre blanche",
     story:
-      "Ambre associe les tons orangés chauds de la cornaline aux éclats blancs de la nacre, pour un bracelet lumineux porté seul ou en accumulation.",
-    images: ["/bracelets/ambre-1.jpg"],
-    stoneIds: ["carnelian", "mother-of-pearl"],
-    beadCount: 44,
-    badge: "Best-seller",
+      "Domino joue le contraste graphique noir et blanc avec deux teintes de nacre alternées, pour un bracelet sobre et intemporel.",
+    images: ["/bracelets/domino-1.jpg"],
+    stoneIds: ["mother-of-pearl"],
+    beadCount: 45,
+    caution:
+      "La nacre noire est très probablement teintée : à présenter comme « nacre teintée » plutôt que « nacre noire naturelle ».",
   },
   {
     id: "terracotta",
@@ -79,17 +80,16 @@ export const bracelets: Bracelet[] = [
       "Certaines chips dorées de ce bracelet pourraient être une autre matière mêlée à la labradorite : composition à reconfirmer avant publication finale.",
   },
   {
-    id: "domino",
-    name: "Domino",
-    price: 24,
-    description: "Nacre noire & nacre blanche",
+    id: "ambre",
+    name: "Ambre",
+    price: 25,
+    description: "Cornaline & nacre blanche",
     story:
-      "Domino joue le contraste graphique noir et blanc avec deux teintes de nacre alternées, pour un bracelet sobre et intemporel.",
-    images: ["/bracelets/domino-1.jpg"],
-    stoneIds: ["mother-of-pearl"],
-    beadCount: 45,
-    caution:
-      "La nacre noire est très probablement teintée : à présenter comme « nacre teintée » plutôt que « nacre noire naturelle ».",
+      "Ambre associe les tons orangés chauds de la cornaline aux éclats blancs de la nacre, pour un bracelet lumineux porté seul ou en accumulation.",
+    images: ["/bracelets/ambre-1.jpg"],
+    stoneIds: ["carnelian", "mother-of-pearl"],
+    beadCount: 44,
+    badge: "Best-seller",
   },
   {
     id: "aurore",
